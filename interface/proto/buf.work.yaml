@@ -1,3 +1,4 @@
 version: v1
 directories:
   - cardapio/module
+  - cliente/module

@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package cliente.service.v1;
+
+import "cliente/def/v1/cliente.proto";
+
+service ClienteService {
+    rpc Cadastro(CadastroRequest) returns (CadastroResponse);
+    rpc Identificacao(IdentificacaoRequest) returns (IdentificacaoResponse);
+}
+
+message CadastroRequest {
+    string nome = 1;
+    string cpf = 2;
+    string email = 3;
+}
+
+message CadastroResponse {
+    cliente.def.v1.Cliente cliente = 1;
+}
+
+
+message IdentificacaoRequest {
+    oneof id {
+        string nome = 1;
+        string cpf = 2;
+        string email = 3;
+    }
+}
+
+message IdentificacaoResponse {
+    cliente.def.v1.Cliente cliente = 1;
+}
