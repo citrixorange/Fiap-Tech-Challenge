@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+package cardapio.service.v1;
+
+import "cardapio/def/v1/cardapio.proto";
+
+service CardapioService {
+    rpc CriarItem(CriarItemRequest) returns (CriarItemResponse);
+    rpc EditarItem(EditarItemRequest) returns (EditarItemResponse);
+    rpc RemoverItem(RemoverItemRequest) returns (RemoverItemResponse);
+    rpc ListarItem(ListarItemRequest) returns (ListarItemResponse);
+}
+
+message CriarItemRequest {
+    string nome = 1;
+    string descricao = 2;
+    cardapio.def.v1.Categoria categoria = 3;
+    string preco = 4;
+}
+
+message CriarItemResponse {
+    cardapio.def.v1.ItemCardapio item = 1;
+}
+
+message EditarItemRequest {
+    string nome = 1;
+    optional string novo_nome = 2;
+    optional string descricao = 3;
+    optional cardapio.def.v1.Categoria categoria = 4;
+    optional string preco = 5;
+}
+
+message EditarItemResponse {
+    cardapio.def.v1.ItemCardapio item = 1;
+}
+
+message RemoverItemRequest {
+    string nome = 1;
+}
+
+message RemoverItemResponse {
+    cardapio.def.v1.ItemCardapio item = 1;
+}
+
+message ListarItemRequest {
+    optional cardapio.def.v1.Categoria categoria = 1;
+}
+
+message ListarItemResponse {
+    repeated cardapio.def.v1.ItemCardapio item = 1; 
+}
