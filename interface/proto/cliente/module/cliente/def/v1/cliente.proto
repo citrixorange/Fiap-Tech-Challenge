@@ -1,9 +1,0 @@
-syntax = "proto3";
-
-package cliente.def.v1;
-
-message Cliente {
-    string nome = 1;
-    string cpf = 2;
-    string email = 3;
-}

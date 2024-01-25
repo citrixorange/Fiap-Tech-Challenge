@@ -1,0 +1,4 @@
+version: v1
+directories:
+  - cardapio/v1
+  - cliente/v1
