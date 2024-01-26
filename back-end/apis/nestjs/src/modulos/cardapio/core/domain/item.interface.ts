@@ -1,8 +1,7 @@
-import { Categoria } from "./categoria"
+import { 
+    IItemCardapio
+} from "../../../../../protobuf/gen/cardapio/def/cardapio";
 
-export interface IItem {
-    nome: string,
-    descricao: string,
-    categoria: Categoria,
-    preco: string
-}
+export {
+    IItemCardapio
+};

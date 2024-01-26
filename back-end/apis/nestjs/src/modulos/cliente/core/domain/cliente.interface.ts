@@ -1,4 +1,4 @@
-import { ICliente } from "@protobuf/cliente/def/cliente";
+import { ICliente } from "../../../../../protobuf/gen/cliente/def/cliente";
 
 export {
     ICliente

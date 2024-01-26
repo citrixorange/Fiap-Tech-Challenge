@@ -4,6 +4,7 @@ import * as request from "supertest";
 import { Connection } from "typeorm";
 import { AppModule } from "../src/app.module";
 import { loadFixtures as loadFixturesBase } from "./utils";
+import { Categoria } from "../src/modulos/cardapio/core/domain/categoria";
 
 let app: INestApplication;
 let mod: TestingModule;
@@ -36,15 +37,15 @@ describe('Cardapio (e2e)', () => {
             .send({
                 nome: "item_teste",
                 descricao: "descricao_teste",
-                categoria: "Lanche",
+                categoria: Categoria.LANCHE,
                 preco: "R$1.00"
             })
             .expect(201)
             .then(response => {
-                expect(response.body.nome).toBe("item_teste");
-                expect(response.body.descricao).toBe("descricao_teste");
-                expect(response.body.categoria).toBe("Lanche");
-                expect(response.body.preco).toBe("R$1.00");
+                expect(response.body.item.nome).toBe("item_teste");
+                expect(response.body.item.descricao).toBe("descricao_teste");
+                expect(response.body.item.categoria).toBe(Categoria.LANCHE);
+                expect(response.body.item.preco).toBe("R$1.00");
             });
     });
 
@@ -66,10 +67,10 @@ describe('Cardapio (e2e)', () => {
             .get('/cardapio')
             .expect(200)
             .then(response => {
-                expect(response.body[0].nome).toBe("item_teste");
-                expect(response.body[0].descricao).toBe("nova_descricao_teste");
-                expect(response.body[0].categoria).toBe("Lanche");
-                expect(response.body[0].preco).toBe("R$1.00");
+                expect(response.body.item[0].nome).toBe("item_teste");
+                expect(response.body.item[0].descricao).toBe("nova_descricao_teste");
+                expect(response.body.item[0].categoria).toBe(Categoria.LANCHE);
+                expect(response.body.item[0].preco).toBe("R$1.00");
             });
         });
     });
@@ -89,7 +90,7 @@ describe('Cardapio (e2e)', () => {
             .get('/cardapio')
             .expect(200)
             .then(response => {
-                expect(response.body).toEqual([]);
+                expect(response.body.item).toEqual([]);
             });
         });
     });
@@ -102,27 +103,27 @@ describe('Cardapio (e2e)', () => {
         .get('/cardapio')
         .expect(200)
         .then(response => {
-            expect(response.body.length).toBe(4);
+            expect(response.body.item.length).toBe(4);
 
-            expect(response.body[0].nome).toBe("item_teste1");
-            expect(response.body[0].descricao).toBe("descricao_teste1");
-            expect(response.body[0].categoria).toBe("Lanche");
-            expect(response.body[0].preco).toBe("R$1.00");
+            expect(response.body.item[0].nome).toBe("item_teste1");
+            expect(response.body.item[0].descricao).toBe("descricao_teste1");
+            expect(response.body.item[0].categoria).toBe(Categoria.LANCHE);
+            expect(response.body.item[0].preco).toBe("R$1.00");
 
-            expect(response.body[1].nome).toBe("item_teste2");
-            expect(response.body[1].descricao).toBe("descricao_teste2");
-            expect(response.body[1].categoria).toBe("Acompanhamento");
-            expect(response.body[1].preco).toBe("R$1.00");
+            expect(response.body.item[1].nome).toBe("item_teste2");
+            expect(response.body.item[1].descricao).toBe("descricao_teste2");
+            expect(response.body.item[1].categoria).toBe(Categoria.ACOMPANHAMENTO);
+            expect(response.body.item[1].preco).toBe("R$1.00");
 
-            expect(response.body[2].nome).toBe("item_teste3");
-            expect(response.body[2].descricao).toBe("descricao_teste3");
-            expect(response.body[2].categoria).toBe("Bebida");
-            expect(response.body[2].preco).toBe("R$1.00");
+            expect(response.body.item[2].nome).toBe("item_teste3");
+            expect(response.body.item[2].descricao).toBe("descricao_teste3");
+            expect(response.body.item[2].categoria).toBe(Categoria.BEBIDA);
+            expect(response.body.item[2].preco).toBe("R$1.00");
 
-            expect(response.body[3].nome).toBe("item_teste4");
-            expect(response.body[3].descricao).toBe("descricao_teste4");
-            expect(response.body[3].categoria).toBe("Sobremesa");
-            expect(response.body[3].preco).toBe("R$1.00");
+            expect(response.body.item[3].nome).toBe("item_teste4");
+            expect(response.body.item[3].descricao).toBe("descricao_teste4");
+            expect(response.body.item[3].categoria).toBe(Categoria.SOBREMESA);
+            expect(response.body.item[3].preco).toBe("R$1.00");
         });
     });
 
@@ -131,22 +132,23 @@ describe('Cardapio (e2e)', () => {
         await loadFixtures('5-cardapio.sql');
 
         return request(app.getHttpServer())
-        .get('/cardapio').query({
-            categoria: "Lanche"
+        .get('/cardapio')
+        .query({
+            categoria: Categoria.LANCHE
         })
         .expect(200)
         .then(response => {
-            expect(response.body.length).toBe(2);
+            expect(response.body.item.length).toBe(2);
 
-            expect(response.body[0].nome).toBe("item_teste1");
-            expect(response.body[0].descricao).toBe("descricao_teste1");
-            expect(response.body[0].categoria).toBe("Lanche");
-            expect(response.body[0].preco).toBe("R$1.00");
+            expect(response.body.item[0].nome).toBe("item_teste1");
+            expect(response.body.item[0].descricao).toBe("descricao_teste1");
+            expect(response.body.item[0].categoria).toBe(Categoria.LANCHE);
+            expect(response.body.item[0].preco).toBe("R$1.00");
 
-            expect(response.body[1].nome).toBe("item_teste2");
-            expect(response.body[1].descricao).toBe("descricao_teste2");
-            expect(response.body[1].categoria).toBe("Lanche");
-            expect(response.body[1].preco).toBe("R$1.00");
+            expect(response.body.item[1].nome).toBe("item_teste2");
+            expect(response.body.item[1].descricao).toBe("descricao_teste2");
+            expect(response.body.item[1].categoria).toBe(Categoria.LANCHE);
+            expect(response.body.item[1].preco).toBe("R$1.00");
         });
     });
 

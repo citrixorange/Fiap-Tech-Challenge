@@ -10,10 +10,6 @@
     "sourceMap": true,
     "outDir": "./dist",
     "baseUrl": "./",
-    "paths": {
-      "@protobuf/cardapio/*": ["./protobuf/gen/cardapio/*"],
-      "@protobuf/cliente/*": ["./protobuf/gen/cliente/*"]
-    },
     "incremental": true,
     "skipLibCheck": true,
     "strictNullChecks": false,

@@ -11,6 +11,6 @@ VALUES
         DEFAULT,
         'item_teste',
         'descricao_teste',
-        'Lanche',
+        1,
         'R$1.00'
     )

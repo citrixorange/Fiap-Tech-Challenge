@@ -14,10 +14,12 @@ export class CardapioController {
   @Post()
   create(@Body() createCardapioDto: CreateCardapioDto) {
     return this.cardapioService.criarItem(
-        createCardapioDto.nome,
-        createCardapioDto.descricao,
-        createCardapioDto.categoria,
-        createCardapioDto.preco
+      {
+        nome: createCardapioDto.nome,
+        descricao: createCardapioDto.descricao,
+        categoria: createCardapioDto.categoria,
+        preco: createCardapioDto.preco
+      }
     );
   }
 
@@ -44,11 +46,13 @@ export class CardapioController {
     try {
 
       return await this.cardapioService.editarItem(
-          queryCardapioDto.nome,
-          editarCardapioDto.nome,
-          editarCardapioDto.descricao,
-          editarCardapioDto.categoria,
-          editarCardapioDto.preco
+        {
+          nome: queryCardapioDto.nome,
+          novoNome: editarCardapioDto.nome,
+          descricao: editarCardapioDto.descricao,
+          categoria: editarCardapioDto.categoria,
+          preco: editarCardapioDto.preco
+        }
       );
     } catch(error) {
       throw new HttpException(
@@ -63,9 +67,23 @@ export class CardapioController {
 
   @Get()
   async listar(
-    @Query() listarCardapioDto: ListarCardapioDto,
+    @Query() query: ListarCardapioDto,
   ) {
-    return await this.cardapioService.listarItens(listarCardapioDto.categoria);
+    try{
+      return await this.cardapioService.listarItem(
+        {
+          categoria: query.categoria
+        }
+      );
+    } catch (error) {
+      throw new HttpException(
+        {
+          status: HttpStatus.NOT_FOUND,
+          error: 'Item não encontrado'
+        },
+        HttpStatus.NOT_FOUND
+      );
+    }
   }
 
   @Delete()
@@ -73,7 +91,9 @@ export class CardapioController {
     @Query() queryCardapioDto: QueryCardapioDto,
   ) {
     try {
-      return await this.cardapioService.removerItem(queryCardapioDto.nome);
+      return await this.cardapioService.removerItem({
+        nome: queryCardapioDto.nome
+      });
     } catch (error) {
       throw new HttpException(
         {

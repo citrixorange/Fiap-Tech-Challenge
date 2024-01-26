@@ -1,6 +1,9 @@
-export enum Categoria {
-    Lanche = "Lanche",
-    Acompanhamento = "Acompanhamento",
-    Bebida = "Bebida",
-    Sobremesa = "Sobremesa"
-}
+import { 
+    Categoria,
+    categoriaFromJSON
+} from "../../../../../protobuf/gen/cardapio/def/cardapio";
+
+export {
+    Categoria,
+    categoriaFromJSON
+};

@@ -21,7 +21,7 @@ describe('CardapioController', () => {
         {
             nome: "produto-mock",
             descricao: "descrição-mock",
-            categoria: "Acompanhamento",
+            categoria: Categoria.ACOMPANHAMENTO,
             preco: "R$1.00"
         }
     ];
@@ -32,7 +32,7 @@ describe('CardapioController', () => {
     const editarCardapioDto = new EditarCardapioDto();
     editarCardapioDto.nome = "produto-mock";
     editarCardapioDto.descricao = "descrição-mock";
-    editarCardapioDto.categoria = Categoria.Acompanhamento;
+    editarCardapioDto.categoria = Categoria.ACOMPANHAMENTO;
     editarCardapioDto.preco = "R$1.00";
 
     const spy_service = jest

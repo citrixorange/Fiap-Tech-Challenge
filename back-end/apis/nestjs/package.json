@@ -6,7 +6,7 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "protobuf-v1-gen": "buf generate --exclude-path ./node_modules --template ../../../interface/proto/v1/cliente/nestjs/buf.gen.yaml --include-imports ../../../interface/proto/v1/cliente/v1",
+    "protobuf-v1-gen": "buf generate --exclude-path ./node_modules --template ../../../interface/proto/v1/cliente/nestjs/buf.gen.yaml --include-imports ../../../interface/proto/v1/cliente/v1 & buf generate --exclude-path ./node_modules --template ../../../interface/proto/v1/cardapio/nestjs/buf.gen.yaml --include-imports ../../../interface/proto/v1/cardapio/v1 ",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "NODE_ENV=dev nest start",
@@ -66,7 +66,6 @@
       "json",
       "ts"
     ],
-    "rootDir": "src",
     "testRegex": ".*\\.spec\\.ts$",
     "transform": {
       "^.+\\.(t|j)s$": "ts-jest"

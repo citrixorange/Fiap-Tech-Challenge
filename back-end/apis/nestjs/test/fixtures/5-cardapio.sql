@@ -11,27 +11,27 @@ VALUES
         DEFAULT,
         'item_teste1',
         'descricao_teste1',
-        'Lanche',
+        1,
         'R$1.00'
     ),
     (
         DEFAULT,
         'item_teste2',
         'descricao_teste2',
-        'Lanche',
+        1,
         'R$1.00'
     ),
     (
         DEFAULT,
         'item_teste3',
         'descricao_teste3',
-        'Bebida',
+        3,
         'R$1.00'
     ),
     (
         DEFAULT,
         'item_teste4',
         'descricao_teste4',
-        'Sobremesa',
+        4,
         'R$1.00'
     );

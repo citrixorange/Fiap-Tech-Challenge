@@ -1,7 +1,15 @@
 import { Inject } from "@nestjs/common";
-import { ICardapio } from "../ports/cardapio.interface";
-import { Categoria } from "../../domain/categoria";
-import { IItem } from "../../domain/item.interface";
+import { 
+    ICardapio,
+    ICriarItemRequest,
+    ICriarItemResponse,
+    IEditarItemRequest,
+    IEditarItemResponse,
+    IRemoverItemRequest,
+    IRemoverItemResponse,
+    IListarItemRequest,
+    IListarItemResponse  
+} from "../ports/cardapio.interface";
 
 export class CardapioService {
     constructor(
@@ -9,19 +17,19 @@ export class CardapioService {
         private readonly cardapioRepository: ICardapio
     ) {}
 
-    async criarItem(nome:string, descricao: string, categoria: Categoria, preco: string) {
-        return this.cardapioRepository.criarItem(nome, descricao, categoria, preco);
+    async criarItem(request: ICriarItemRequest): Promise<ICriarItemResponse> {
+        return await this.cardapioRepository.criarItem(request);
     }
 
-    async editarItem(nome:string, novo_nome?: string, descricao?: string, categoria?: Categoria, preco?: string) {
-        return await this.cardapioRepository.editarItem(nome, novo_nome, descricao, categoria, preco);
+    async editarItem(request: IEditarItemRequest): Promise<IEditarItemResponse> {
+        return await this.cardapioRepository.editarItem(request);
     }
 
-    async removerItem(nome:string) {
-        return this.cardapioRepository.removerItem(nome);
+    async removerItem(request: IRemoverItemRequest): Promise<IRemoverItemResponse> {
+        return await this.cardapioRepository.removerItem(request);
     }
 
-    async listarItens(categoria?: Categoria): Promise<IItem[]> {
-        return this.cardapioRepository.listarItens(categoria);
+    async listarItem(request: IListarItemRequest): Promise<IListarItemResponse> {
+        return await this.cardapioRepository.listarItem(request);
     }
 }

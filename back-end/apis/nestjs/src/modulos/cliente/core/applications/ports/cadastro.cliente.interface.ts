@@ -4,7 +4,7 @@ import {
     ICadastroResponse,
     IIdentificacaoRequest,
     IIdentificacaoResponse
-} from "@protobuf/cliente/service/cliente";
+} from "../../../../../../protobuf/gen/cliente/service/cliente";
 
 export {
     ICadastroCliente,

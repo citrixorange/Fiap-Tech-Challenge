@@ -5,10 +5,10 @@ import "cardapio/def/cardapio.proto";
 package cardapio.service;
 
 service ICardapio {
-    rpc CriarItem(ICriarItemRequest) returns (ICriarItemResponse);
-    rpc EditarItem(IEditarItemRequest) returns (IEditarItemResponse);
-    rpc RemoverItem(IRemoverItemRequest) returns (IRemoverItemResponse);
-    rpc ListarItem(IListarItemRequest) returns (IListarItemResponse);
+    rpc criarItem(ICriarItemRequest) returns (ICriarItemResponse);
+    rpc editarItem(IEditarItemRequest) returns (IEditarItemResponse);
+    rpc removerItem(IRemoverItemRequest) returns (IRemoverItemResponse);
+    rpc listarItem(IListarItemRequest) returns (IListarItemResponse);
 }
 
 message ICriarItemRequest {
@@ -19,7 +19,7 @@ message ICriarItemRequest {
 }
 
 message ICriarItemResponse {
-    cardapio.def.ItemCardapio item = 1;
+    cardapio.def.IItemCardapio item = 1;
 }
 
 message IEditarItemRequest {
@@ -31,7 +31,7 @@ message IEditarItemRequest {
 }
 
 message IEditarItemResponse {
-    cardapio.def.ItemCardapio item = 1;
+    cardapio.def.IItemCardapio item = 1;
 }
 
 message IRemoverItemRequest {
@@ -39,7 +39,7 @@ message IRemoverItemRequest {
 }
 
 message IRemoverItemResponse {
-    cardapio.def.ItemCardapio item = 1;
+    cardapio.def.IItemCardapio item = 1;
 }
 
 message IListarItemRequest {
@@ -47,5 +47,5 @@ message IListarItemRequest {
 }
 
 message IListarItemResponse {
-    repeated cardapio.def.ItemCardapio item = 1; 
+    repeated cardapio.def.IItemCardapio item = 1; 
 }

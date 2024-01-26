@@ -3,14 +3,14 @@ syntax = "proto3";
 package cardapio.def;
 
 enum Categoria {
-    CATEGORIA_UNSPECIFIED = 0;
-    CATEGORIA_LANCHE = 1;
-    CATEGORIA_ACOMPANHAMENTO = 2;
-    CATEGORIA_BEBIDA = 3;
-    CATEGORIA_SOBREMESA = 4;
+    UNSPECIFIED = 0;
+    LANCHE = 1;
+    ACOMPANHAMENTO = 2;
+    BEBIDA = 3;
+    SOBREMESA = 4;
 }
 
-message ItemCardapio {
+message IItemCardapio {
     string nome = 1;
     string descricao = 2;
     Categoria categoria = 3;

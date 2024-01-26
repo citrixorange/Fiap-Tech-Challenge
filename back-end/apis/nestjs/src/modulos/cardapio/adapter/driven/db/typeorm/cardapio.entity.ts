@@ -1,9 +1,9 @@
 import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
-import { IItem } from "../../../../core/domain/item.interface";
+import { IItemCardapio } from "../../../../core/domain/item.interface";
 import { Categoria } from '../../../../core/domain/categoria';
 
 @Entity()
-export class ItemCardapio extends BaseEntity implements IItem {
+export class ItemCardapio extends BaseEntity implements IItemCardapio {
 
   @PrimaryGeneratedColumn('uuid')
   id: string;

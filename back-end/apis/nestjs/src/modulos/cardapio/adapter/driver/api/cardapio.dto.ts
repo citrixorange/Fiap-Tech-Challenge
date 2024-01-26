@@ -1,10 +1,11 @@
+import { Transform } from "class-transformer";
 import { Length, IsCurrency, IsEnum, IsOptional } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { PartialType } from '@nestjs/mapped-types';
-import { IItem } from '../../../core/domain/item.interface';
-import { Categoria } from '../../../core/domain/categoria';
+import { IItemCardapio } from '../../../core/domain/item.interface';
+import { Categoria, categoriaFromJSON } from '../../../core/domain/categoria';
 
-export class CreateCardapioDto implements IItem {
+export class CreateCardapioDto implements IItemCardapio {
 
   @ApiProperty()
   @Length(1, 30)
@@ -44,9 +45,8 @@ export class EditarCardapioDto extends PartialType(CreateCardapioDto) {}
 
 export class ListarCardapioDto {
 
-  @ApiProperty({
-    required: false
-  })
+  @ApiProperty()
+  @Transform(({ value }) => categoriaFromJSON(value))
   @IsOptional()
   @IsEnum(
     Categoria,
@@ -54,7 +54,7 @@ export class ListarCardapioDto {
       message: 'Categoria Inválida. Por favor consulte a documentação.'
     }
   )
-  categoria: Categoria;
+  categoria?: Categoria;
 
 }
 
