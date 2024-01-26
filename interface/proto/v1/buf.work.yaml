@@ -2,3 +2,5 @@ version: v1
 directories:
   - cardapio/v1
   - cliente/v1
+  - checkout/v1
+  - pedido/v1

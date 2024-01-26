@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+import "pedido/def/pedido.proto";
+import "checkout/def/checkout.proto";
+
+package checkout.service;
+
+service ICheckout {
+    rpc gerarQrCodePix(QrCodeGenRequest) returns (QrCodeGenResponse);
+    rpc fakeCheckout(FakeCheckoutRequest) returns (FakeCheckoutResponse);
+}
+
+message QrCodeGenRequest {
+    pedido.def.IPedido pedido = 1;
+}
+
+message QrCodeGenResponse {
+    checkout.def.PaymentGateway gateway = 1;
+    pedido.def.IPedido pedido = 5;
+    string total_amount = 6;
+    string expiration_data = 7;
+    string qr_code_text = 8;
+    string qr_code_png_link = 9;
+    string qr_code_base64_link = 10;
+}
+
+message FakeCheckoutRequest {
+    string order_id = 1;
+}
+
+message FakeCheckoutResponse {
+    string order_id = 1;
+}

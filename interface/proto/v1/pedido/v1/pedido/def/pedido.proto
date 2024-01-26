@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+import "cliente/def/cliente.proto";
+
+package pedido.def;
+
+enum StatusPedido {
+    UNSPECIFIED = 0;
+    RECEBIDO = 1;
+    PREPARANDO = 2;
+    PRONTO = 3;
+    FINALIZADO = 4;
+}
+
+message IItemPedido {
+    string nome = 1;
+    uint32 quantidade = 2;
+    string preco = 3;
+}
+
+message IPedido {
+    repeated IItemPedido item = 1;
+}
+
+message IPedidoTotal {
+    IPedido pedido = 1;
+    cliente.def.ICliente cliente = 2;
+}
