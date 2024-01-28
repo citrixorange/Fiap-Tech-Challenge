@@ -8,3 +8,5 @@ lint:
     - DEFAULT
 deps:
   - buf.build/fiap-tech-challenge/cliente
+  - buf.build/fiap-tech-challenge/cardapio
+  - buf.build/protocolbuffers/wellknowntypes:v21.12

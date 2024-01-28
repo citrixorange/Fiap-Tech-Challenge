@@ -5,8 +5,8 @@ import "cliente/def/cliente.proto";
 package cliente.service;
 
 service ICadastroCliente {
-    rpc Cadastro(ICadastroRequest) returns (ICadastroResponse);
-    rpc Identificacao(IIdentificacaoRequest) returns (IIdentificacaoResponse);
+    rpc cadastro(ICadastroRequest) returns (ICadastroResponse);
+    rpc identificacao(IIdentificacaoRequest) returns (IIdentificacaoResponse);
 }
 
 message ICadastroRequest {

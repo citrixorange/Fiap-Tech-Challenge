@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+import "cliente/def/cliente.proto";
+
+package checkout.def;
+
+enum PaymentGateway {
+    UNSPECIFIED_GATEWAY = 0;
+    PAG_SEGURO = 1;
+}
+
+enum PaymentMethods {
+    UNSPECIFIED_METHOD = 0;
+    PIX = 1;
+}
+
+message IItemPedido {
+    string nome = 1;
+    uint32 quantidade = 2;
+    string preco = 3;
+}
+
+message IPedido {
+    repeated IItemPedido item = 1;
+}
+
+message IPedidoTotal {
+    string id = 1;
+    IPedido pedido = 2;
+    optional cliente.def.ICliente cliente = 3;
+}

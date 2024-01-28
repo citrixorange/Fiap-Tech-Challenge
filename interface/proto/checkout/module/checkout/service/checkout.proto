@@ -1,6 +1,5 @@
 syntax = "proto3";
 
-import "pedido/def/pedido.proto";
 import "checkout/def/checkout.proto";
 
 package checkout.service;
@@ -11,13 +10,14 @@ service ICheckout {
 }
 
 message QrCodeGenRequest {
-    pedido.def.IPedidoTotal pedido = 1;
+    checkout.def.IPedidoTotal pedido = 1;
+    string notification_url = 2;
 }
 
 message QrCodeGenResponse {
     checkout.def.PaymentGateway gateway = 1;
     string qr_code_id = 2;
-    pedido.def.IPedidoTotal pedido = 3;
+    checkout.def.IPedidoTotal pedido = 3;
     string total_amount = 4;
     string expiration_data = 5;
     string qr_code_text = 6;

@@ -1,0 +1,54 @@
+syntax = "proto3";
+
+import "pedido/def/pedido.proto";
+
+package pedido.service;
+
+service IRegistroPedido {
+    rpc registrar(IRegistarRequest) returns (IRegistarResponse);
+    rpc iniciarPreparo(IIniciarPreparoRequest) returns (IIniciarPreparoResponse);
+    rpc terminarPreparo(ITerminarPreparoRequest) returns (ITerminarPreparoResponse);
+    rpc finalizar(IFinalizarRequest) returns (IFinalizarResponse);
+    rpc listar(IListarRequest) returns (IListarResponse);
+}
+
+message IRegistarRequest {
+    pedido.def.IPedidoTotal pedido = 1;
+}
+
+message IRegistarResponse {
+    pedido.def.IPedidoProtocolado protocolo = 1;
+}
+
+message IIniciarPreparoRequest {
+    string id = 1;
+}
+
+message IIniciarPreparoResponse {
+    pedido.def.IPedidoProtocolado protocolo = 1;
+}
+
+message ITerminarPreparoRequest {
+    string id = 1;
+}
+
+message ITerminarPreparoResponse {
+    pedido.def.IPedidoProtocolado protocolo = 1;
+}
+
+message IFinalizarRequest {
+    string id = 1;
+}
+
+message IFinalizarResponse {
+    pedido.def.IPedidoProtocolado protocolo = 1;
+}
+
+message IListarRequest {
+    optional pedido.def.StatusPedido status_pedido = 1;
+}
+
+message IListarResponse {
+    repeated pedido.def.StatusPedido pedidos = 1;
+}
+

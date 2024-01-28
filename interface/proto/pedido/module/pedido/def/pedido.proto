@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+import "cliente/def/cliente.proto";
+import "cardapio/def/cardapio.proto";
+import "google/protobuf/timestamp.proto";
+
+package pedido.def;
+
+enum StatusPedido {
+    UNSPECIFIED = 0;
+    RECEBIDO = 1;
+    PREPARANDO = 2;
+    PRONTO = 3;
+    FINALIZADO = 4;
+}
+
+message IItemPedido {
+    string id = 1;
+    uint32 quantidade = 2;
+    cardapio.def.IItemCardapio item = 3;
+    google.protobuf.Timestamp created_at = 4;
+}
+
+message IPedidoTotal {
+    string id = 1;
+    repeated IItemPedido item_pedido = 2;
+    cliente.def.ICliente cliente = 3;
+    google.protobuf.Timestamp created_at = 4;
+}
+
+message IPedidoProtocolado {
+    string id = 1;
+    IPedidoTotal pedido = 2;
+    StatusPedido status = 4;
+    string created_at = 5;
+    optional string received_at = 6;
+    optional string prepared_at = 7;
+    optional string done_at = 8;
+}
