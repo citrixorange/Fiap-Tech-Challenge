@@ -6,7 +6,7 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "protobuf-v1-gen": "buf generate --exclude-path ./node_modules --template ../../../interface/proto/v1/cliente/nestjs/buf.gen.yaml --include-imports ../../../interface/proto/v1/cliente/v1 & buf generate --exclude-path ./node_modules --template ../../../interface/proto/v1/cardapio/nestjs/buf.gen.yaml --include-imports ../../../interface/proto/v1/cardapio/v1 ",
+    "protobuf-v1-gen": "buf generate --exclude-path ./node_modules --template ../../../interface/proto/v1/cliente/nestjs/buf.gen.yaml --include-imports ../../../interface/proto/v1/cliente/v1 & buf generate --exclude-path ./node_modules --template ../../../interface/proto/v1/cardapio/nestjs/buf.gen.yaml --include-imports ../../../interface/proto/v1/cardapio/v1 & buf generate --exclude-path ./node_modules --template ../../../interface/proto/v1/checkout/nestjs/buf.gen.yaml --include-imports ../../../interface/proto/v1/checkout/v1 & buf generate --exclude-path ./node_modules --template ../../../interface/proto/v1/pedido/nestjs/buf.gen.yaml --include-imports ../../../interface/proto/v1/pedido/v1",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "NODE_ENV=dev nest start",
@@ -21,12 +21,14 @@
     "test:e2e": "NODE_ENV=test jest --runInBand --config ./test/jest-e2e.json"
   },
   "dependencies": {
+    "@nestjs/axios": "^3.0.1",
     "@nestjs/common": "^10.0.0",
     "@nestjs/config": "^3.1.1",
     "@nestjs/core": "^10.0.0",
     "@nestjs/platform-express": "^10.0.0",
     "@nestjs/swagger": "^7.1.16",
     "@nestjs/typeorm": "^10.0.1",
+    "axios": "^1.6.7",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.0",
     "pg": "^8.11.3",

@@ -11,17 +11,18 @@ service ICheckout {
 }
 
 message QrCodeGenRequest {
-    pedido.def.IPedido pedido = 1;
+    pedido.def.IPedidoTotal pedido = 1;
 }
 
 message QrCodeGenResponse {
     checkout.def.PaymentGateway gateway = 1;
-    pedido.def.IPedido pedido = 5;
-    string total_amount = 6;
-    string expiration_data = 7;
-    string qr_code_text = 8;
-    string qr_code_png_link = 9;
-    string qr_code_base64_link = 10;
+    string qr_code_id = 2;
+    pedido.def.IPedidoTotal pedido = 3;
+    string total_amount = 4;
+    string expiration_data = 5;
+    string qr_code_text = 6;
+    string qr_code_png_link = 7;
+    string qr_code_base64_link = 8;
 }
 
 message FakeCheckoutRequest {
