@@ -6,7 +6,7 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "protobuf-v1-gen": "buf generate --exclude-path ./node_modules --template ../../../interface/proto/v1/cliente/nestjs/buf.gen.yaml --include-imports ../../../interface/proto/v1/cliente/v1 & buf generate --exclude-path ./node_modules --template ../../../interface/proto/v1/cardapio/nestjs/buf.gen.yaml --include-imports ../../../interface/proto/v1/cardapio/v1 & buf generate --exclude-path ./node_modules --template ../../../interface/proto/v1/checkout/nestjs/buf.gen.yaml --include-imports ../../../interface/proto/v1/checkout/v1 & buf generate --exclude-path ./node_modules --template ../../../interface/proto/v1/pedido/nestjs/buf.gen.yaml --include-imports ../../../interface/proto/v1/pedido/v1",
+    "protobuf-gen": "buf generate --exclude-path ./node_modules --template ../../../interface/proto/cliente/nestjs/buf.gen.yaml --include-imports ../../../interface/proto/cliente/module & buf generate --exclude-path ./node_modules --template ../../../interface/proto/cardapio/nestjs/buf.gen.yaml --include-imports ../../../interface/proto/cardapio/module & buf generate --exclude-path ./node_modules --template ../../../interface/proto/checkout/nestjs/buf.gen.yaml --include-imports ../../../interface/proto/checkout/module & buf generate --exclude-path ./node_modules --template ../../../interface/proto/pedido/nestjs/buf.gen.yaml --include-imports ../../../interface/proto/pedido/module",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "NODE_ENV=dev nest start",

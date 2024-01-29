@@ -25,7 +25,6 @@ message IPedido {
 }
 
 message IPedidoTotal {
-    string id = 1;
-    IPedido pedido = 2;
-    optional cliente.def.ICliente cliente = 3;
+    IPedido pedido = 1;
+    optional cliente.def.ICliente cliente = 2;
 }

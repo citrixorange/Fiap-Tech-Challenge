@@ -14,10 +14,10 @@ export class ClienteService {
     ) {}
 
     async cadastrarCliente(request: ICadastroRequest): Promise<ICadastroResponse> {
-        return this.clienteRepository.Cadastro(request);
+        return this.clienteRepository.cadastro(request);
     }
 
     async identificarCliente(request: IIdentificacaoRequest): Promise<IIdentificacaoResponse> {
-        return await this.clienteRepository.Identificacao(request);
+        return await this.clienteRepository.identificacao(request);
     }
 }

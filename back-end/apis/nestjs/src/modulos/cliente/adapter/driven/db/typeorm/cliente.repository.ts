@@ -18,7 +18,7 @@ export class ClienteRepository implements ICadastroCliente {
         private readonly clienteRepository: Repository<Cliente>,
     ) {}
 
-    public async Cadastro(request: ICadastroRequest): Promise<ICadastroResponse> {
+    public async cadastro(request: ICadastroRequest): Promise<ICadastroResponse> {
         let cliente = new Cliente(
             request.nome,
             request.cpf, 
@@ -31,7 +31,7 @@ export class ClienteRepository implements ICadastroCliente {
         
     }
 
-    public async Identificacao(request: IIdentificacaoRequest): Promise<IIdentificacaoResponse> {
+    public async identificacao(request: IIdentificacaoRequest): Promise<IIdentificacaoResponse> {
         
         try {
             const queryBuilder = this.clienteRepository.createQueryBuilder('cliente');

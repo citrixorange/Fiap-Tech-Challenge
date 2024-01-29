@@ -12,7 +12,7 @@ import {
 
 import {
     PaymentGateway
-} from "../../../core/domain/payments";
+} from "../../../core/domain/payments.interface";
 
 @Injectable()
 export class PagBankGateway implements ICheckout {
@@ -74,9 +74,9 @@ export class PagBankGateway implements ICheckout {
         return {
             "reference_id": "ex-00001",
             "customer": {
-                "name": request.pedido.cliente.nome,
-                "email": request.pedido.cliente.email,
-                "tax_id": request.pedido.cliente.cpf,
+                "name": request.pedido.cliente != undefined ? request.pedido.cliente.nome : 'Cliente Anônimo',
+                "email": request.pedido.cliente != undefined ? request.pedido.cliente.email : 'no_email_provided@test.com',
+                "tax_id": request.pedido.cliente != undefined ? request.pedido.cliente.cpf : '12345678909',
                 "phones": [
                     {
                         "country": "+55",

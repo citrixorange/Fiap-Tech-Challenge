@@ -1,13 +1,15 @@
-import { 
+import {
+    StatusPedido,
+    statusPedidoFromJSON, 
     IItemPedido,
-    IPedido,
     IPedidoTotal,
-    IPedido as IPedidoHandler
+    IPedidoProtocolado
 } from "../../../../../protobuf/gen/pedido/def/pedido";
 
 export {
+    StatusPedido,
+    statusPedidoFromJSON,
     IItemPedido,
-    IPedido,
     IPedidoTotal,
-    IPedidoHandler
+    IPedidoProtocolado
 };

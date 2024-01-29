@@ -16,5 +16,8 @@ import { CardapioRepository } from './adapter/driven/db/typeorm/cardapio.reposit
     },
     CardapioRepository
   ],
+  exports: [
+    CardapioRepository
+  ]
 })
 export class CardapioModule {}

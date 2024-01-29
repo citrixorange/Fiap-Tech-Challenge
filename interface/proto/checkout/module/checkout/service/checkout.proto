@@ -11,7 +11,6 @@ service ICheckout {
 
 message QrCodeGenRequest {
     checkout.def.IPedidoTotal pedido = 1;
-    string notification_url = 2;
 }
 
 message QrCodeGenResponse {

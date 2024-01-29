@@ -16,5 +16,6 @@ import { ClienteRepository } from './adapter/driven/db/typeorm/cliente.repositor
     },
     ClienteRepository
   ],
+  exports: [ClienteRepository]
 })
 export class ClienteModule {}

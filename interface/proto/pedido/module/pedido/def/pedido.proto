@@ -30,10 +30,11 @@ message IPedidoTotal {
 
 message IPedidoProtocolado {
     string id = 1;
-    IPedidoTotal pedido = 2;
+    cliente.def.ICliente cliente = 2;
+    repeated IItemPedido pedido = 3;
     StatusPedido status = 4;
-    string created_at = 5;
-    optional string received_at = 6;
-    optional string prepared_at = 7;
-    optional string done_at = 8;
+    google.protobuf.Timestamp created_at = 5;
+    google.protobuf.Timestamp received_at = 6;
+    google.protobuf.Timestamp prepared_at = 7;
+    google.protobuf.Timestamp done_at = 8;
 }
