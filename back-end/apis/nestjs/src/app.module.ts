@@ -12,8 +12,6 @@ import ormConfig from './config/orm.config';
 import ormConfigProd from './config/orm.config.prod';
 import checkoutConfig from "./config/checkout.config";
 
-
-
 @Module({
   imports: [
     ConfigModule.forRoot({

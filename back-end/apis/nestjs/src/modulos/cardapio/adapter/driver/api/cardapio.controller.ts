@@ -6,10 +6,19 @@ import {
   ListarCardapioDto,
   QueryCardapioDto 
 } from './cardapio.dto';
+import * as fs from 'fs';
+import * as path from 'path';
 
 @Controller('cardapio')
 export class CardapioController {
-  constructor(private readonly cardapioService: CardapioService) {}
+
+  config: any;
+
+  constructor(private readonly cardapioService: CardapioService) {
+    const filePath = path.resolve(__dirname, '../../../../../config.json');
+    const fileContent = fs.readFileSync(filePath, 'utf-8');
+    this.config = JSON.parse(fileContent);
+  }
 
   @Post()
   create(@Body() createCardapioDto: CreateCardapioDto) {
@@ -37,7 +46,7 @@ export class CardapioController {
       throw new HttpException(
         {
           status: HttpStatus.BAD_REQUEST,
-          error: 'Por favor, informe ao menos um campo a ser editado: nome, descrição, categoria ou preço.'
+          error: this.config["errors"]["messages"]["novo_campo_ausente"]
         },
         HttpStatus.BAD_REQUEST
       );
@@ -58,7 +67,7 @@ export class CardapioController {
       throw new HttpException(
         {
           status: HttpStatus.NOT_FOUND,
-          error: 'Item não encontrado'
+          error: this.config["errors"]["messages"]["item_cardapio_nao_encontrado"]
         },
         HttpStatus.NOT_FOUND
       );
@@ -79,7 +88,7 @@ export class CardapioController {
       throw new HttpException(
         {
           status: HttpStatus.NOT_FOUND,
-          error: 'Item não encontrado'
+          error: this.config["errors"]["messages"]["item_cardapio_nao_encontrado"]
         },
         HttpStatus.NOT_FOUND
       );
@@ -98,7 +107,7 @@ export class CardapioController {
       throw new HttpException(
         {
           status: HttpStatus.NOT_FOUND,
-          error: 'Item não encontrado'
+          error: this.config["errors"]["messages"]["item_cardapio_nao_encontrado"]
         },
         HttpStatus.NOT_FOUND
       );

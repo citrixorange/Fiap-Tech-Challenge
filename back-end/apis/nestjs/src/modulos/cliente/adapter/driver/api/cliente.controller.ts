@@ -5,10 +5,19 @@ import {
   ICadastroResponse,
   IIdentificacaoResponse
 } from '../../../core/applications/ports/cadastro.cliente.interface';
+import * as fs from 'fs';
+import * as path from 'path';
 
 @Controller('cliente')
 export class ClienteController {
-  constructor(private readonly clienteService: ClienteService) {}
+
+  config: any;
+
+  constructor(private readonly clienteService: ClienteService) {
+    const filePath = path.resolve(__dirname, '../../../../../config.json');
+    const fileContent = fs.readFileSync(filePath, 'utf-8');
+    this.config = JSON.parse(fileContent);
+  }
 
   @Post()
   async cadastrar(@Body() clienteDto: CadastrarClienteDto): Promise<ICadastroResponse> {
@@ -34,7 +43,7 @@ export class ClienteController {
       throw new HttpException(
         {
           status: HttpStatus.BAD_REQUEST,
-          error: 'Por favor, informe ao menos um identificador: nome, cpf ou email.'
+          error: this.config["errors"]["messages"]["identificador_ausente"]
         },
         HttpStatus.BAD_REQUEST
       );
@@ -54,7 +63,7 @@ export class ClienteController {
       throw new HttpException(
         {
           status: HttpStatus.NOT_FOUND,
-          error: 'Cliente não encontrado'
+          error: this.config["errors"]["messages"]["cliente_nao_encontrado"]
         },
         HttpStatus.NOT_FOUND
       );

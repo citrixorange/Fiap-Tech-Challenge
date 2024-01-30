@@ -6,8 +6,8 @@ import { ValidationPipe } from '@nestjs/common';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const config = new DocumentBuilder()
-    .setTitle('TECH CHALLENGE - GRUPO')
-    .setDescription('Tech Challenge API description')
+    .setTitle('TECH CHALLENGE Api Server')
+    .setDescription('A Fast Food Back-End API Server')
     .setVersion('1.0')
     .addTag('fiap')
     .build();

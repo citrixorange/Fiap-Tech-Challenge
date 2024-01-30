@@ -9,9 +9,19 @@ import {
     IListarResponse
 } from '../../../core/applications/ports/pedido.interface';
 
+import * as fs from 'fs';
+import * as path from 'path';
+
 @Controller('pedido')
 export class PedidoController {
-  constructor(private readonly pedidoService: PedidoService) {}
+
+  config: any;
+
+  constructor(private readonly pedidoService: PedidoService) {
+    const filePath = path.resolve(__dirname, '../../../../../config.json');
+    const fileContent = fs.readFileSync(filePath, 'utf-8');
+    this.config = JSON.parse(fileContent);
+  }
 
   @Post('criar')
   async registrar(@Body() request: any): Promise<IRegistarResponse> {
@@ -23,7 +33,7 @@ export class PedidoController {
       throw new HttpException(
         {
           status: HttpStatus.BAD_REQUEST,
-          error: 'Bad Request'
+          error: this.config["errors"]["messages"]["bad_request"]
         },
         HttpStatus.BAD_REQUEST
       );
@@ -39,7 +49,7 @@ export class PedidoController {
       throw new HttpException(
         {
           status: HttpStatus.BAD_REQUEST,
-          error: 'Bad Request'
+          error: this.config["errors"]["messages"]["bad_request"]
         },
         HttpStatus.BAD_REQUEST
       );
@@ -55,7 +65,7 @@ export class PedidoController {
       throw new HttpException(
         {
           status: HttpStatus.BAD_REQUEST,
-          error: 'Bad Request'
+          error: this.config["errors"]["messages"]["bad_request"]
         },
         HttpStatus.BAD_REQUEST
       );
@@ -70,7 +80,7 @@ export class PedidoController {
       throw new HttpException(
         {
           status: HttpStatus.BAD_REQUEST,
-          error: 'Bad Request'
+          error: this.config["errors"]["messages"]["bad_request"]
         },
         HttpStatus.BAD_REQUEST
       );
@@ -88,7 +98,7 @@ export class PedidoController {
       throw new HttpException(
         {
           status: HttpStatus.NOT_FOUND,
-          error: 'Pedido não encontrado'
+          error: this.config["errors"]["messages"]["pedido_nao_encontrado"]
         },
         HttpStatus.NOT_FOUND
       );

@@ -1,6 +1,8 @@
 import { Injectable, BadRequestException, InternalServerErrorException } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { ConfigService } from '@nestjs/config';
+import * as fs from 'fs';
+import * as path from 'path';
 
 import {
     ICheckout,
@@ -17,19 +19,19 @@ import {
 @Injectable()
 export class PagBankGateway implements ICheckout {
 
-    base_url: string;
-    order_page: string;
-    fake_checkout_page: string;
+    config: any;
     bearer_token: string;
 
     constructor(
         private readonly httpService: HttpService,
         private readonly configService: ConfigService
     ) {
+
+        const filePath = path.resolve(__dirname, '../../../../../config.json');
+        const fileContent = fs.readFileSync(filePath, 'utf-8');
+        this.config = JSON.parse(fileContent);
         this.bearer_token = this.configService.get<string>('PAG_BANK_SANDBOX_BEARER_TOKEN');
-        this.base_url = "https://sandbox.api.pagseguro.com";
-        this.order_page = "/orders";
-        this.fake_checkout_page = "/pix/pay/";
+
     }
 
     parsePrice(price: string): number {
@@ -44,7 +46,7 @@ export class PagBankGateway implements ICheckout {
             const numericValue = parseFloat(price);
 
             if (isNaN(numericValue)) {
-                throw new Error('Invalid price');
+                throw new Error(this.config["errors"]["messages"]["preco_invalido"]);
             }
     
             const currencyString = new Intl.NumberFormat('pt-BR', {
@@ -74,9 +76,9 @@ export class PagBankGateway implements ICheckout {
         return {
             "reference_id": "ex-00001",
             "customer": {
-                "name": request.pedido.cliente != undefined ? request.pedido.cliente.nome : 'Cliente Anônimo',
-                "email": request.pedido.cliente != undefined ? request.pedido.cliente.email : 'no_email_provided@test.com',
-                "tax_id": request.pedido.cliente != undefined ? request.pedido.cliente.cpf : '12345678909',
+                "name": request.pedido.cliente != undefined ? request.pedido.cliente.nome : process.env.NODE_ENV == 'prod' ? this.config["PagBank"]["production"]["cliente_anonimo"]["nome"] : this.config["PagBank"]["sandbox"]["cliente_anonimo"]["nome"],
+                "email": request.pedido.cliente != undefined ? request.pedido.cliente.email : process.env.NODE_ENV == 'prod' ? this.config["PagBank"]["production"]["cliente_anonimo"]["email"] : this.config["PagBank"]["sandbox"]["cliente_anonimo"]["email"],
+                "tax_id": request.pedido.cliente != undefined ? request.pedido.cliente.cpf : process.env.NODE_ENV == 'prod' ? this.config["PagBank"]["production"]["cliente_anonimo"]["cpf"] : this.config["PagBank"]["sandbox"]["cliente_anonimo"]["cpf"],
                 "phones": [
                     {
                         "country": "+55",
@@ -159,6 +161,8 @@ export class PagBankGateway implements ICheckout {
         try {
             
             let token = this.bearer_token;
+            let base_url = process.env.NODE_ENV == 'prod' ? this.config["PagBank"]["production"]["url"] : this.config["PagBank"]["sandbox"]["url"];
+            let order_page = process.env.NODE_ENV == 'prod' ? this.config["PagBank"]["production"]["order_page"] : this.config["PagBank"]["sandbox"]["order_page"];
 
             const header = {
                 'Authorization': `Bearer ${token}`,
@@ -167,7 +171,7 @@ export class PagBankGateway implements ICheckout {
             }
     
             let result = await this.httpService.axiosRef.post(
-                this.base_url + this.order_page,
+                base_url + order_page,
                 this.formatBodyRequest(request),
                 {
                     headers: header
@@ -195,6 +199,8 @@ export class PagBankGateway implements ICheckout {
     async fakeCheckout(request: FakeCheckoutRequest): Promise<FakeCheckoutResponse> {
         
         let token = this.bearer_token;
+        let base_url = process.env.NODE_ENV == 'prod' ? this.config["PagBank"]["production"]["url"] : this.config["PagBank"]["sandbox"]["url"];
+        let checkout_page = process.env.NODE_ENV == 'prod' ? this.config["PagBank"]["production"]["fake_checkout_page"] : this.config["PagBank"]["sandbox"]["fake_checkout_page"];
 
         const header = {
             'Authorization': `Bearer ${token}`,
@@ -203,7 +209,7 @@ export class PagBankGateway implements ICheckout {
         }
 
         let response = await this.httpService.post(
-            this.base_url + this.fake_checkout_page + '/' + request.orderId,
+            base_url + checkout_page + '/' + request.orderId,
             {},
             {
                 headers: header

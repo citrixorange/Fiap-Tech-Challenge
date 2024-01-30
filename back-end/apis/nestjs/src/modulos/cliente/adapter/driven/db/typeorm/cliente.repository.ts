@@ -9,14 +9,22 @@ import {
     IIdentificacaoRequest,
     IIdentificacaoResponse
 } from '../../../../core/applications/ports/cadastro.cliente.interface';
+import * as fs from 'fs';
+import * as path from 'path';
 
 @Injectable()
 export class ClienteRepository implements ICadastroCliente {
 
+    config: any;
+
     constructor(
         @InjectRepository(Cliente)
         private readonly clienteRepository: Repository<Cliente>,
-    ) {}
+    ) {
+        const filePath = path.resolve(__dirname, '../../../../../../config.json');
+        const fileContent = fs.readFileSync(filePath, 'utf-8');
+        this.config = JSON.parse(fileContent);
+    }
 
     public async cadastro(request: ICadastroRequest): Promise<ICadastroResponse> {
         let cliente = new Cliente(
@@ -58,7 +66,7 @@ export class ClienteRepository implements ICadastroCliente {
             };
 
         } catch (error) {
-            throw new NotFoundException(`Cliente não encontrado`);
+            throw new NotFoundException(this.config["errors"]["messages"]["cliente_nao_encontrado"]);
         }
 
     }

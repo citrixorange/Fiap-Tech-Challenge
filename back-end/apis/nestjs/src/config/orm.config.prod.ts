@@ -18,11 +18,11 @@ export default registerAs(
   'orm.config',
   (): TypeOrmModuleOptions => ({
     type: 'postgres',
-    host: process.env.DATABASE_HOST,
-    port: Number(process.env.DATABASE_PORT),
-    username: process.env.DATABASE_USER,
-    password: process.env.DATABASE_PASSWORD,
-    database: process.env.DATABASE_NAME,
+    host: process.env.PROD_DATABASE_HOST,
+    port: Number(process.env.PROD_DATABASE_PORT),
+    username: process.env.PROD_DATABASE_USER,
+    password: process.env.PROD_DATABASE_PASSWORD,
+    database: process.env.PROD_DATABASE_NAME,
     entities: [
         Cliente,
         ItemCardapio,
@@ -30,7 +30,7 @@ export default registerAs(
         PedidoProtocolado
     ],
     synchronize: false,
-    logging: Boolean(parseInt(process.env.DATABASE_LOG_ENABLE)),
+    logging: Boolean(parseInt(process.env.PROD_DATABASE_LOG_ENABLE)),
     dropSchema: false
   })
 );
