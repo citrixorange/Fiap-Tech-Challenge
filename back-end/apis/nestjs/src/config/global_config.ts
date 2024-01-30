@@ -1,4 +1,4 @@
-{
+const config = {
     "PagBank": {
         "sandbox": {
             "url": "https://sandbox.api.pagseguro.com",
@@ -33,4 +33,8 @@
 
         }
     }
-}
+};
+
+export {
+    config
+};

@@ -10,15 +10,13 @@ import { join } from 'path';
 import { ConfigModule } from '@nestjs/config';
 import ormConfig from './config/orm.config';
 import ormConfigProd from './config/orm.config.prod';
-import checkoutConfig from "./config/checkout.config";
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      load: [ormConfig, checkoutConfig],
-      expandVariables: true,
-      envFilePath: join(__dirname, `../environment/${process.env.NODE_ENV}/.${process.env.NODE_ENV}.env`)
+      load: [ormConfig],
+      expandVariables: true
     }),
     TypeOrmModule.forRootAsync({
       useFactory: process.env.NODE_ENV !== 'prod'

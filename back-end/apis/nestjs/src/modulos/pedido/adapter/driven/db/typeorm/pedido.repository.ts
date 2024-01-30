@@ -19,13 +19,11 @@ import {
 } from "../../../../core/applications/ports/pedido.interface";
 import { StatusPedido } from 'protobuf/gen/pedido/def/pedido';
 
-import * as fs from 'fs';
-import * as path from 'path';
+import { config } from "../../../../../../config/global_config";
 
 @Injectable()
 export class PedidoRepository implements IRegistroPedido {
 
-    config: any;
 
     constructor(
         @InjectRepository(PedidoProtocolado)
@@ -39,11 +37,7 @@ export class PedidoRepository implements IRegistroPedido {
 
         //private cardapioCache: Map<string, ItemCardapio>,
 
-    ) {
-        const filePath = path.resolve(__dirname, '../../../../../../config.json');
-        const fileContent = fs.readFileSync(filePath, 'utf-8');
-        this.config = JSON.parse(fileContent);
-    }
+    ) {}
 
     private async getItemCardapioByNome(nome: string): Promise<ItemCardapio | undefined> {
         
@@ -78,7 +72,7 @@ export class PedidoRepository implements IRegistroPedido {
                 let itemCardapio = await this.getItemCardapioByNome(itemPedido.name);
 
                 if(!itemCardapio) {
-                    throw new Error(this.config["errors"]["messages"]["item_cardapio_nao_encontrado"]);
+                    throw new Error(config["errors"]["messages"]["item_cardapio_nao_encontrado"]);
                 }
 
                 let item = new ItemPedido(itemPedido.quantity, itemCardapio, object.created_at);
@@ -121,7 +115,7 @@ export class PedidoRepository implements IRegistroPedido {
             });
 
             if(!pedido) {
-                throw new Error(this.config["errors"]["messages"]["pedido_nao_encontrado"]);
+                throw new Error(config["errors"]["messages"]["pedido_nao_encontrado"]);
             }
 
             pedido.receivedAt = new Date();
@@ -150,7 +144,7 @@ export class PedidoRepository implements IRegistroPedido {
             });
 
             if(!pedido) {
-                throw new Error(this.config["errors"]["messages"]["pedido_nao_encontrado"]);
+                throw new Error(config["errors"]["messages"]["pedido_nao_encontrado"]);
             }
 
             pedido.preparedAt = new Date();
@@ -177,7 +171,7 @@ export class PedidoRepository implements IRegistroPedido {
             });
 
             if(!pedido) {
-                throw new Error(this.config["errors"]["messages"]["pedido_nao_encontrado"]);
+                throw new Error(config["errors"]["messages"]["pedido_nao_encontrado"]);
             }
 
             pedido.doneAt = new Date();

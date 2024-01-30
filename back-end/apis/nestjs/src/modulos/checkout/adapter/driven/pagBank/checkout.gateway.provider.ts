@@ -1,8 +1,6 @@
 import { Injectable, BadRequestException, InternalServerErrorException } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
-import { ConfigService } from '@nestjs/config';
-import * as fs from 'fs';
-import * as path from 'path';
+import { config } from "../../../../../config/global_config";
 
 import {
     ICheckout,
@@ -19,19 +17,12 @@ import {
 @Injectable()
 export class PagBankGateway implements ICheckout {
 
-    config: any;
     bearer_token: string;
 
     constructor(
-        private readonly httpService: HttpService,
-        private readonly configService: ConfigService
+        private readonly httpService: HttpService
     ) {
-
-        const filePath = path.resolve(__dirname, '../../../../../config.json');
-        const fileContent = fs.readFileSync(filePath, 'utf-8');
-        this.config = JSON.parse(fileContent);
-        this.bearer_token = this.configService.get<string>('PAG_BANK_SANDBOX_BEARER_TOKEN');
-
+        this.bearer_token = process.env.PAG_BANK_BEARER_TOKEN;
     }
 
     parsePrice(price: string): number {
@@ -46,7 +37,7 @@ export class PagBankGateway implements ICheckout {
             const numericValue = parseFloat(price);
 
             if (isNaN(numericValue)) {
-                throw new Error(this.config["errors"]["messages"]["preco_invalido"]);
+                throw new Error(config["errors"]["messages"]["preco_invalido"]);
             }
     
             const currencyString = new Intl.NumberFormat('pt-BR', {
@@ -76,9 +67,9 @@ export class PagBankGateway implements ICheckout {
         return {
             "reference_id": "ex-00001",
             "customer": {
-                "name": request.pedido.cliente != undefined ? request.pedido.cliente.nome : process.env.NODE_ENV == 'prod' ? this.config["PagBank"]["production"]["cliente_anonimo"]["nome"] : this.config["PagBank"]["sandbox"]["cliente_anonimo"]["nome"],
-                "email": request.pedido.cliente != undefined ? request.pedido.cliente.email : process.env.NODE_ENV == 'prod' ? this.config["PagBank"]["production"]["cliente_anonimo"]["email"] : this.config["PagBank"]["sandbox"]["cliente_anonimo"]["email"],
-                "tax_id": request.pedido.cliente != undefined ? request.pedido.cliente.cpf : process.env.NODE_ENV == 'prod' ? this.config["PagBank"]["production"]["cliente_anonimo"]["cpf"] : this.config["PagBank"]["sandbox"]["cliente_anonimo"]["cpf"],
+                "name": request.pedido.cliente != undefined ? request.pedido.cliente.nome : process.env.NODE_ENV == 'prod' ? config["PagBank"]["production"]["cliente_anonimo"]["nome"] : config["PagBank"]["sandbox"]["cliente_anonimo"]["nome"],
+                "email": request.pedido.cliente != undefined ? request.pedido.cliente.email : process.env.NODE_ENV == 'prod' ? config["PagBank"]["production"]["cliente_anonimo"]["email"] : config["PagBank"]["sandbox"]["cliente_anonimo"]["email"],
+                "tax_id": request.pedido.cliente != undefined ? request.pedido.cliente.cpf : process.env.NODE_ENV == 'prod' ? config["PagBank"]["production"]["cliente_anonimo"]["cpf"] : config["PagBank"]["sandbox"]["cliente_anonimo"]["cpf"],
                 "phones": [
                     {
                         "country": "+55",
@@ -161,8 +152,8 @@ export class PagBankGateway implements ICheckout {
         try {
             
             let token = this.bearer_token;
-            let base_url = process.env.NODE_ENV == 'prod' ? this.config["PagBank"]["production"]["url"] : this.config["PagBank"]["sandbox"]["url"];
-            let order_page = process.env.NODE_ENV == 'prod' ? this.config["PagBank"]["production"]["order_page"] : this.config["PagBank"]["sandbox"]["order_page"];
+            let base_url = process.env.NODE_ENV == 'prod' ? config["PagBank"]["production"]["url"] : config["PagBank"]["sandbox"]["url"];
+            let order_page = process.env.NODE_ENV == 'prod' ? config["PagBank"]["production"]["order_page"] : config["PagBank"]["sandbox"]["order_page"];
 
             const header = {
                 'Authorization': `Bearer ${token}`,
@@ -199,8 +190,8 @@ export class PagBankGateway implements ICheckout {
     async fakeCheckout(request: FakeCheckoutRequest): Promise<FakeCheckoutResponse> {
         
         let token = this.bearer_token;
-        let base_url = process.env.NODE_ENV == 'prod' ? this.config["PagBank"]["production"]["url"] : this.config["PagBank"]["sandbox"]["url"];
-        let checkout_page = process.env.NODE_ENV == 'prod' ? this.config["PagBank"]["production"]["fake_checkout_page"] : this.config["PagBank"]["sandbox"]["fake_checkout_page"];
+        let base_url = process.env.NODE_ENV == 'prod' ? config["PagBank"]["production"]["url"] : config["PagBank"]["sandbox"]["url"];
+        let checkout_page = process.env.NODE_ENV == 'prod' ? config["PagBank"]["production"]["fake_checkout_page"] : config["PagBank"]["sandbox"]["fake_checkout_page"];
 
         const header = {
             'Authorization': `Bearer ${token}`,

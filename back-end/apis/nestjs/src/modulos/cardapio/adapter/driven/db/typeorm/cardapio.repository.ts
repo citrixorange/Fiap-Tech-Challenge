@@ -13,22 +13,15 @@ import {
     IListarItemRequest,
     IListarItemResponse
 } from "../../../../core/applications/ports/cardapio.interface";
-import * as fs from 'fs';
-import * as path from 'path';
+import { config } from "../../../../../../config/global_config";
 
 @Injectable()
 export class CardapioRepository implements ICardapio {
 
-    config: any;
-
     constructor(
         @InjectRepository(ItemCardapio)
         private readonly cardapioRepository: Repository<ItemCardapio>,
-    ) {
-        const filePath = path.resolve(__dirname, '../../../../../../config.json');
-        const fileContent = fs.readFileSync(filePath, 'utf-8');
-        this.config = JSON.parse(fileContent);
-    }
+    ) {}
     
     public async criarItem(request: ICriarItemRequest): Promise<ICriarItemResponse> {
         
@@ -80,7 +73,7 @@ export class CardapioRepository implements ICardapio {
             };
 
         } catch (error) {
-            throw new NotFoundException(this.config["errors"]["messages"]["item_cardapio_nao_encontrado"]);
+            throw new NotFoundException(config["errors"]["messages"]["item_cardapio_nao_encontrado"]);
         }
     }
 
@@ -101,7 +94,7 @@ export class CardapioRepository implements ICardapio {
             };
 
         } catch (error) {
-            throw new NotFoundException(this.config["errors"]["messages"]["item_cardapio_nao_encontrado"]);
+            throw new NotFoundException(config["errors"]["messages"]["item_cardapio_nao_encontrado"]);
         }
 
     }

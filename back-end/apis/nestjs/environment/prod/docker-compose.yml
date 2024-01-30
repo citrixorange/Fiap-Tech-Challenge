@@ -12,3 +12,32 @@ services:
       POSTGRES_PASSWORD: DATABASE_PASSWORD
     ports:
         - 5432:5432
+    networks:
+      - test_default
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+    networks:
+      - test_default
+
+  app:
+    image: tech-challenge:v1
+    ports:
+      - "3000:3000"
+    networks:
+      - test_default
+    depends_on:
+      - db
+    environment:
+      PROD_DATABASE_HOST: "db"  # Replace with the host machine's IP address
+      PROD_DATABASE_PORT: 5432
+      PROD_DATABASE_USER: "postgres"
+      PROD_DATABASE_PASSWORD: "DATABASE_PASSWORD"
+      PROD_DATABASE_NAME: "db-dev"
+      PROD_DATABASE_LOG_ENABLE: "true"
+      PAG_BANK_BEARER_TOKEN: "EEF14D9AE30846E0BF6F189445AECA7B"
+networks:
+  test_default:
