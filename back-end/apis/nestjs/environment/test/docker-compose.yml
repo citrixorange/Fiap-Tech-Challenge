@@ -3,8 +3,6 @@ version: '3.1'
 
 services:
   db:
-    env_file:
-      - .test.env
     image: postgres
     restart: always
     environment:
@@ -12,9 +10,28 @@ services:
       POSTGRES_PASSWORD: DATABASE_PASSWORD
     ports:
         - 5432:5432
+    networks:
+      - test_default
 
-  adminer:
-    image: adminer
-    restart: always
+  app:
+    image: tech-challenge:test
     ports:
-      - 8080:8080
+      - "3000:3000"
+    volumes:
+      - ../..:/app/back-end/apis/nestjs
+    networks:
+      - test_default
+    depends_on:
+      - db
+    environment:
+      DATABASE_HOST: "db"  # Replace with the host machine's IP address
+      DATABASE_PORT: 5432
+      DATABASE_USER: "postgres"
+      DATABASE_PASSWORD: "DATABASE_PASSWORD"
+      DATABASE_NAME: "db-test"
+      DATABASE_SYNC: 1
+      DATABASE_LOG_ENABLE: 0
+      DATABASE_DROP_SCHEMA: 1
+      PAG_BANK_BEARER_TOKEN: ""
+networks:
+  test_default:

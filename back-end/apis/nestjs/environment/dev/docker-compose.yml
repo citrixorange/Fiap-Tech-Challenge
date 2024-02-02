@@ -3,8 +3,6 @@ version: '3.1'
 
 services:
   db:
-    env_file:
-      - .dev.env
     image: postgres
     restart: always
     environment:
@@ -24,9 +22,11 @@ services:
       - test_default
 
   app:
-    image: tech-challenge:v1
+    image: tech-challenge:dev
     ports:
       - "3000:3000"
+    volumes:
+      - ../..:/app/back-end/apis/nestjs
     networks:
       - test_default
     depends_on:
@@ -37,7 +37,9 @@ services:
       DATABASE_USER: "postgres"
       DATABASE_PASSWORD: "DATABASE_PASSWORD"
       DATABASE_NAME: "db-dev"
-      DATABASE_LOG_ENABLE: "true"
-      PAG_BANK_BEARER_TOKEN: "EEF14D9AE30846E0BF6F189445AECA7B"
+      DATABASE_SYNC: 1
+      DATABASE_LOG_ENABLE: 1
+      DATABASE_DROP_SCHEMA: 0
+      PAG_BANK_BEARER_TOKEN: ""
 networks:
   test_default:

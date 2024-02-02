@@ -9,7 +9,6 @@
     "protobuf-gen": "buf generate --exclude-path ./node_modules --template ../../../interface/proto/cliente/nestjs/buf.gen.yaml --include-imports ../../../interface/proto/cliente/module & buf generate --exclude-path ./node_modules --template ../../../interface/proto/cardapio/nestjs/buf.gen.yaml --include-imports ../../../interface/proto/cardapio/module & buf generate --exclude-path ./node_modules --template ../../../interface/proto/checkout/nestjs/buf.gen.yaml --include-imports ../../../interface/proto/checkout/module & buf generate --exclude-path ./node_modules --template ../../../interface/proto/pedido/nestjs/buf.gen.yaml --include-imports ../../../interface/proto/pedido/module",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
-    "start": "NODE_ENV=prod nest start",
     "start:dev": "NODE_ENV=dev nest start --watch",
     "start:debug": "NODE_ENV=dev nest start --debug --watch",
     "start:prod": "NODE_ENV=prod node dist/main",

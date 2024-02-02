@@ -12,7 +12,7 @@ a arquitetura hexagonal.
 
 import { Cliente } from '../modulos/cliente/adapter/driven/db/typeorm/cliente.entity';
 import { ItemCardapio } from '../modulos/cardapio/adapter/driven/db/typeorm/cardapio.entity';
-//import { ItemPedido, PedidoProtocolado } from "../modulos/pedido/adapter/driven/db/typeorm/pedido.entity";
+import { ItemPedido, PedidoProtocolado } from "../modulos/pedido/adapter/driven/db/typeorm/pedido.entity";
 
 
 export default registerAs(
@@ -27,10 +27,10 @@ export default registerAs(
     entities: [
         Cliente,
         ItemCardapio,
-        //ItemPedido,
-        //PedidoProtocolado
+        ItemPedido,
+        PedidoProtocolado
     ],
-    synchronize: true,
+    synchronize: Boolean(parseInt(process.env.DATABASE_SYNC)),
     logging: Boolean(parseInt(process.env.DATABASE_LOG_ENABLE)),
     dropSchema: Boolean(parseInt(process.env.DATABASE_DROP_SCHEMA))
   })

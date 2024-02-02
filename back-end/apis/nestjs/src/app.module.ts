@@ -5,23 +5,11 @@ import { CheckoutModule } from './modulos/checkout/checkout.module';
 import { PedidoModule } from './modulos/pedido/pedido.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { HttpModule } from '@nestjs/axios';
-import * as process from 'node:process';
-import { join } from 'path';
-import { ConfigModule } from '@nestjs/config';
 import ormConfig from './config/orm.config';
-import ormConfigProd from './config/orm.config.prod';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({
-      isGlobal: true,
-      load: [ormConfig],
-      expandVariables: true
-    }),
-    TypeOrmModule.forRootAsync({
-      useFactory: process.env.NODE_ENV !== 'prod'
-        ? ormConfig : ormConfigProd
-    }),
+    TypeOrmModule.forRoot(ormConfig()),
     HttpModule,
     ClienteModule,
     CardapioModule,
