@@ -2,6 +2,8 @@
 
 This Project is part of Fiap Software Architeture Specialization Program. It should follows best practice on Software Architecture to provide Back-End for a Self-Service Fast Food Establishment
 
+Check more at: https://github.com/citrixorange/Fiap-Tech-Challenge
+
 # Api Documentation
 
 Api Doc is available by Swagger(Run Containers as Dev Mode, and check: http://localhost:3000/api)
