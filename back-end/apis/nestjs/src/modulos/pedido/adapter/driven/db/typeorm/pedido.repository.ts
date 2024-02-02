@@ -17,7 +17,7 @@ import {
     IListarRequest,
     IListarResponse
 } from "../../../../core/applications/ports/pedido.interface";
-import { StatusPedido } from 'protobuf/gen/pedido/def/pedido';
+import { StatusPedido } from "../../../../core/domain/item.pedido.interface";
 
 import { config } from "../../../../../../config/global_config";
 
