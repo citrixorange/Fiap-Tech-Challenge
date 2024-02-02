@@ -1,4 +1,13 @@
 const config = {
+    "App": {
+        "title": "Tech Challenge Api Server",
+        "description": "A Fast Food Back-End API Server",
+        "version": "v1.0",
+        "tag": "módulo 1"
+    },
+    "Swagger": {
+        "api_route": "api"
+    },
     "PagBank": {
         "sandbox": {
             "url": "https://sandbox.api.pagseguro.com",
