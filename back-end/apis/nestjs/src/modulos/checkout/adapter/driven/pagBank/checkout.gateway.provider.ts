@@ -126,7 +126,7 @@ export class PagBankGateway implements ICheckout {
                     }
                 },
                 "notifications_urls": [
-                    ""
+                    process.env.WEBHOOK_CRIAR_PEDIDO_URL
                 ]
             };
         } catch(error) {
