@@ -25,6 +25,21 @@ export class PagBankGateway implements ICheckout {
         this.bearer_token = process.env.PAG_BANK_BEARER_TOKEN;
     }
 
+    getExpirationTime(): String {
+
+        try {    
+            let originalDate = new Date();
+            originalDate.setHours(originalDate.getHours() + 1);
+            const formattedStringDate = originalDate.toISOString().replace(/\.\d{3}/, '').replace('Z', '-03:00');
+            console.log(formattedStringDate);
+            return formattedStringDate;
+
+        } catch(error) {
+            console.log(error);
+            throw InternalServerErrorException;
+        }
+    }
+
     parsePrice(price: string): number {
         const numericString = price.replace(/[^\d]/g, '');
         const result = parseInt(numericString, 10);
@@ -50,7 +65,7 @@ export class PagBankGateway implements ICheckout {
 
         } catch(err) {
             console.log("Error: " + err);
-            return err;
+            throw InternalServerErrorException;
         };
     }
 
@@ -64,52 +79,61 @@ export class PagBankGateway implements ICheckout {
 
     formatBodyRequest(request: QrCodeGenRequest): any {
 
-        return {
-            "reference_id": "ex-00001",
-            "customer": {
-                "name": request.pedido.cliente != undefined ? request.pedido.cliente.nome : process.env.NODE_ENV == 'prod' ? config["PagBank"]["production"]["cliente_anonimo"]["nome"] : config["PagBank"]["sandbox"]["cliente_anonimo"]["nome"],
-                "email": request.pedido.cliente != undefined ? request.pedido.cliente.email : process.env.NODE_ENV == 'prod' ? config["PagBank"]["production"]["cliente_anonimo"]["email"] : config["PagBank"]["sandbox"]["cliente_anonimo"]["email"],
-                "tax_id": request.pedido.cliente != undefined ? request.pedido.cliente.cpf : process.env.NODE_ENV == 'prod' ? config["PagBank"]["production"]["cliente_anonimo"]["cpf"] : config["PagBank"]["sandbox"]["cliente_anonimo"]["cpf"],
-                "phones": [
+        try {
+
+            let expiration_date = this.getExpirationTime();
+
+            return {
+                "reference_id": "ex-00001",
+                "customer": {
+                    "name": request.pedido.cliente != undefined ? request.pedido.cliente.nome : process.env.NODE_ENV == 'prod' ? config["PagBank"]["production"]["cliente_anonimo"]["nome"] : config["PagBank"]["sandbox"]["cliente_anonimo"]["nome"],
+                    "email": request.pedido.cliente != undefined ? request.pedido.cliente.email : process.env.NODE_ENV == 'prod' ? config["PagBank"]["production"]["cliente_anonimo"]["email"] : config["PagBank"]["sandbox"]["cliente_anonimo"]["email"],
+                    "tax_id": request.pedido.cliente != undefined ? request.pedido.cliente.cpf : process.env.NODE_ENV == 'prod' ? config["PagBank"]["production"]["cliente_anonimo"]["cpf"] : config["PagBank"]["sandbox"]["cliente_anonimo"]["cpf"],
+                    "phones": [
+                        {
+                            "country": "+55",
+                            "area": "11",
+                            "number": "999999999",
+                            "type": "MOBILE"
+                        }
+                    ],
+                },
+                "items": request.pedido.pedido.item.map(item => {
+                    return {
+                        "name": item.nome,
+                        "quantity": item.quantidade,
+                        "unit_amount": this.parsePrice(item.preco)
+                    };
+                }),
+                "qr_codes": [
                     {
-                        "country": "+55",
-                        "area": "11",
-                        "number": "999999999",
-                        "type": "MOBILE"
+                        "amount": {
+                            "value": this.totalAmount(request)
+                        },
+                        "expiration_date": expiration_date
                     }
                 ],
-            },
-            "items": request.pedido.pedido.item.map(item => {
-                return {
-                    "name": item.nome,
-                    "quantity": item.quantidade,
-                    "unit_amount": this.parsePrice(item.preco)
-                };
-            }),
-            "qr_codes": [
-                {
-                    "amount": {
-                        "value": this.totalAmount(request)
-                    },
-                    "expiration_date": "2024-01-28T20:15:59-03:00"
-                }
-            ],
-            "shipping": {
-                "address": {
-                    "street": "Rua Juquitibá",
-                    "number": "53",
-                    "complement": "53",
-                    "locality": "Vila Prado",
-                    "city": "São Carlos",
-                    "region_code": "SP",
-                    "country": "BRA",
-                    "postal_code": "01452002"
-                }
-            },
-            "notifications_urls": [
-                ""
-            ]
-        };
+                "shipping": {
+                    "address": {
+                        "street": "Rua Juquitibá",
+                        "number": "53",
+                        "complement": "53",
+                        "locality": "Vila Prado",
+                        "city": "São Carlos",
+                        "region_code": "SP",
+                        "country": "BRA",
+                        "postal_code": "01452002"
+                    }
+                },
+                "notifications_urls": [
+                    ""
+                ]
+            };
+        } catch(error) {
+            console.log(error);
+            throw InternalServerErrorException;
+        }
+
     }
 
     formatQrCodeResponse(response: any): QrCodeGenResponse {
@@ -137,7 +161,7 @@ export class PagBankGateway implements ICheckout {
 
         } catch(err) {
             console.log(err);
-            return err;
+            throw InternalServerErrorException;
         };
         
     }
@@ -148,7 +172,7 @@ export class PagBankGateway implements ICheckout {
     }
 
     async gerarQrCodePix(request: QrCodeGenRequest): Promise<QrCodeGenResponse> {
-
+        
         try {
             
             let token = this.bearer_token;
@@ -163,7 +187,7 @@ export class PagBankGateway implements ICheckout {
     
             let result = await this.httpService.axiosRef.post(
                 base_url + order_page,
-                this.formatBodyRequest(request),
+                await this.formatBodyRequest(request),
                 {
                     headers: header
                 }

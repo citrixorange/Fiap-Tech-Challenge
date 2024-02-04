@@ -1,13 +1,14 @@
-#!/bin/bash
+#!/bin/sh
 
-apt-get update
+apk update
 
-apt-get install -y \
-    curl \
+apk add curl
 
-curl -sL https://deb.nodesource.com/setup_16.x | bash - \
-    && apt-get install -y nodejs \
-    && npm install -g npm@8.3.1
+curl -sL https://deb.nodesource.com/setup_16.x | bash
+
+apk add npm
+
+apk add jq
 
 npm install -g @nestjs/cli
 

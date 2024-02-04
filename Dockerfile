@@ -1,5 +1,6 @@
 # Development Stage
-FROM ubuntu:latest AS development
+FROM alpine:latest AS development
+USER root
 LABEL image.name="tech-challenge:dev"
 WORKDIR /app
 COPY . .
@@ -12,7 +13,7 @@ expose 3000
 CMD ["npm", "run", "start:dev"]
 
 #Production Stage
-FROM ubuntu:latest AS test
+FROM alpine:latest AS test
 LABEL image.name="tech-challenge:test"
 WORKDIR /app
 COPY . .
@@ -25,7 +26,7 @@ expose 3000
 CMD ["npm", "run", "test:e2e"]
 
 #Production Stage
-FROM ubuntu:latest AS production
+FROM alpine:latest AS production
 LABEL image.name="tech-challenge:v1"
 WORKDIR /app
 COPY . .
