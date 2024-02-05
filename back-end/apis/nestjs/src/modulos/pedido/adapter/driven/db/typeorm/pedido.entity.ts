@@ -1,4 +1,4 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn, PrimaryColumn, OneToMany, ManyToOne, JoinColumn } from 'typeorm';
+import { BaseEntity, Column, Entity, PrimaryGeneratedColumn, PrimaryColumn, OneToMany, ManyToOne, JoinColumn, Relation } from 'typeorm';
 import { StatusPedido } from '../../../../core/domain/item.pedido.interface';
 import { Cliente } from '../../../../../cliente/adapter/driven/db/typeorm/cliente.entity';
 import { ItemCardapio } from '../../../../../cardapio/adapter/driven/db/typeorm/cardapio.entity';
@@ -19,11 +19,13 @@ export class ItemPedido extends BaseEntity implements IItemPedido {
   quantidade: number;
 
   @ManyToOne(() => ItemCardapio, { eager: true })
-  @JoinColumn()
-  item: ItemCardapio;
+  item: Relation<ItemCardapio>;
 
   @Column({ type: 'timestamptz' })
   createdAt: Date;
+
+  @ManyToOne(() => PedidoProtocolado, (pedido_protocolado) => pedido_protocolado.pedido)
+  pedido_protocolado: Relation<PedidoProtocolado>;
 
   constructor(quantidade: number, item: ItemCardapio, createdAt: Date) {
     super();
@@ -41,10 +43,11 @@ export class PedidoProtocolado extends BaseEntity implements IPedidoProtocolado 
 
   @ManyToOne(() => Cliente, { cascade: ['insert'], eager: true })
   @JoinColumn()
-  cliente: Cliente;
+  cliente: Relation<Cliente>;
 
-  @OneToMany(() => ItemPedido, itemPedido => itemPedido, { cascade: true, eager: true })
-  pedido: ItemPedido[];
+  @OneToMany(() => ItemPedido, itemPedido => itemPedido.pedido_protocolado, { cascade: true, eager: true })
+  @JoinColumn()
+  pedido: Relation<ItemPedido>[];
 
   @Column()
   status: StatusPedido;

@@ -17,9 +17,5 @@
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false
-  },
-  "include": [
-    "src/**/*.ts",  // Include TypeScript files
-    "src/**/*.json" // Include JSON files
-  ]
+  }
 }

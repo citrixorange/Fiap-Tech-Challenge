@@ -45,7 +45,9 @@ export class EditarCardapioDto extends PartialType(CreateCardapioDto) {}
 
 export class ListarCardapioDto {
 
-  @ApiProperty()
+  @ApiProperty({
+    required: false
+  })
   @Transform(({ value }) => categoriaFromJSON(value))
   @IsOptional()
   @IsEnum(

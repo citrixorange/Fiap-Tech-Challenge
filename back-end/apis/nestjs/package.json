@@ -9,7 +9,7 @@
     "protobuf-gen": "buf generate --exclude-path ./node_modules --template ../../../interface/proto/cliente/nestjs/buf.gen.yaml --include-imports ../../../interface/proto/cliente/module & buf generate --exclude-path ./node_modules --template ../../../interface/proto/cardapio/nestjs/buf.gen.yaml --include-imports ../../../interface/proto/cardapio/module & buf generate --exclude-path ./node_modules --template ../../../interface/proto/checkout/nestjs/buf.gen.yaml --include-imports ../../../interface/proto/checkout/module & buf generate --exclude-path ./node_modules --template ../../../interface/proto/pedido/nestjs/buf.gen.yaml --include-imports ../../../interface/proto/pedido/module",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
-    "start:dev": "NODE_ENV=dev nest start --watch",
+    "start:dev": "NODE_ENV=dev nest start",
     "start:debug": "NODE_ENV=dev nest start --debug --watch",
     "start:prod": "NODE_ENV=prod node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
@@ -34,7 +34,7 @@
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.1",
     "ts-proto": "^1.167.0",
-    "typeorm": "^0.3.17"
+    "typeorm": "0.3.19"
   },
   "devDependencies": {
     "@nestjs/cli": "^10.0.0",

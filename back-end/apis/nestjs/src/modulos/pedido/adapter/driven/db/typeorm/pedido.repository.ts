@@ -1,8 +1,10 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from "typeorm";
 import { PedidoProtocolado, ItemPedido } from './pedido.entity';
 import { Cliente } from '../../../../../cliente/adapter/driven/db/typeorm/cliente.entity';
+import { ClienteService } from "../../../../../cliente/core/applications/services/cliente.service";
+import { CardapioService } from "../../../../../cardapio/core/applications/services/cardapioService";
 import { ItemCardapio } from '../../../../../cardapio/adapter/driven/db/typeorm/cardapio.entity';
 import { 
     IRegistroPedido,
@@ -24,39 +26,31 @@ import { config } from "../../../../../../config/global_config";
 @Injectable()
 export class PedidoRepository implements IRegistroPedido {
 
+    cardapioCache: Map<String, ItemCardapio> = new Map();
 
     constructor(
         @InjectRepository(PedidoProtocolado)
         private readonly pedidoRepository: Repository<PedidoProtocolado>,
 
-        @InjectRepository(Cliente)
-        private readonly clienteRepository: Repository<Cliente>,
+        @Inject('ClienteService')
+        private readonly clienteService: ClienteService,
 
-        @InjectRepository(ItemCardapio)
-        private readonly cardapioRepository: Repository<ItemCardapio>,
-
-        //private cardapioCache: Map<string, ItemCardapio>,
+        @Inject('CardapioService')
+        private readonly cardapioService: CardapioService,
 
     ) {}
 
-    private async getItemCardapioByNome(nome: string): Promise<ItemCardapio | undefined> {
-        
-        /*if(!this.cardapioCache.has(nome)) {
-            
-            const item = await this.cardapioRepository.findOne({
-                where: { nome }
-            });
-            
-            this.cardapioCache.set(nome, item);
+    async getItemCardapioByNome(nome: String): Promise<ItemCardapio | undefined> {
+
+        if(this.cardapioCache.size == 0 ) {
+            const response = await this.cardapioService.listarItem({});
+            const itens = response.item;
+            for(const item of itens) {
+                this.cardapioCache.set(item.nome, item as ItemCardapio);
+            }
         }
 
-        return this.cardapioCache.get(nome);*/
-
-        const item = await this.cardapioRepository.findOne({
-            where: { nome }
-        });
-
-        return item;
+        return this.cardapioCache.get(nome);
     }
 
     public async registrar(request: IRegistarRequest): Promise<IRegistarResponse> {
@@ -79,19 +73,19 @@ export class PedidoRepository implements IRegistroPedido {
                 pedido.push(item);
             }
 
-            let cliente = await this.clienteRepository.findOne({
-                where: { cpf: cpfCliente }
+            let clienteResponse = await this.clienteService.identificarCliente({
+                cpf: cpfCliente
             });
 
-            if(!cliente) {
+            /*if(!cliente) {
                 cliente = new Cliente(
                     object.customer.name, 
                     object.customer.tax_id,
                     object.customer.email
                 );
-            }
+            }*/
 
-            let pedidoProtocolo = new PedidoProtocolado(object.reference_id, cliente, pedido, object.created_at);
+            let pedidoProtocolo = new PedidoProtocolado(object.reference_id, clienteResponse.cliente as Cliente, pedido, object.created_at);
 
             let protocol = await this.pedidoRepository.save(pedidoProtocolo);
 
@@ -101,7 +95,7 @@ export class PedidoRepository implements IRegistroPedido {
 
         } catch(error) {
             console.log(error);
-            throw error;
+            throw new Error(config["errors"]["messages"]["unexpected_error"]);
         }
     }
 
@@ -129,7 +123,7 @@ export class PedidoRepository implements IRegistroPedido {
 
         } catch(error) {
             console.log(error);
-            return error;
+            throw new Error(config["errors"]["messages"]["unexpected_error"]);
         }
 
     }

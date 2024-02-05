@@ -8,6 +8,10 @@ import { ItemCardapio } from '../cardapio/adapter/driven/db/typeorm/cardapio.ent
 import { Cliente } from '../cliente/adapter/driven/db/typeorm/cliente.entity';
 import { ItemPedido, PedidoProtocolado } from "./adapter/driven/db/typeorm/pedido.entity";
 import { PedidoRepository } from './adapter/driven/db/typeorm/pedido.repository';
+import { ClienteService } from '../cliente/core/applications/services/cliente.service';
+import { ClienteRepository } from '../cliente/adapter/driven/db/typeorm/cliente.repository';
+import { CardapioService } from '../cardapio/core/applications/services/cardapioService';
+import { CardapioRepository } from '../cardapio/adapter/driven/db/typeorm/cardapio.repository';
 
 
 @Module({
@@ -18,16 +22,37 @@ import { PedidoRepository } from './adapter/driven/db/typeorm/pedido.repository'
         Cliente,
         ItemPedido,
         PedidoProtocolado
-      ])
+      ]),
+      ClienteModule,
+      CardapioModule,
+
     ],
   controllers: [PedidoController],
   providers: [
     PedidoService,
+    PedidoRepository,
+    {
+      provide: 'ClienteService',
+      useClass: ClienteService
+    },
+    {
+      provide: 'CardapioService',
+      useClass: CardapioService
+    },
     {
         provide: 'IRegistroPedido',
         useClass: PedidoRepository
     },
-    PedidoRepository
+    {
+      provide: 'ICadastroCliente',
+      useClass: ClienteRepository
+    },
+    {
+      provide: 'ICardapio',
+      useClass: CardapioRepository
+    },
+    ClienteService,
+    CardapioService,
   ],
 })
 export class PedidoModule {}

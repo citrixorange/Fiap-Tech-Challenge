@@ -12,7 +12,9 @@ export class PatchPedidoDto {
 
 export class ListarPedidoDto {
 
-    @ApiProperty()
+    @ApiProperty({
+        required: false
+    })
     @Transform(({ value }) => statusPedidoFromJSON(value))
     @IsOptional()
     @IsEnum(

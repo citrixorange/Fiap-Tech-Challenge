@@ -38,8 +38,8 @@ const config = {
             "cliente_nao_encontrado": "Cliente não encontrado",
             "identificador_ausente": "Por favor, informe ao menos um identificador: nome, cpf ou email.",
             "pedido_nao_encontrado": "Pedido não encontrado.",
-            "bad_request": "Bad Request."
-
+            "bad_request": "Bad Request.",
+            "unexpected_error": "Unexpected Error."
         }
     }
 };

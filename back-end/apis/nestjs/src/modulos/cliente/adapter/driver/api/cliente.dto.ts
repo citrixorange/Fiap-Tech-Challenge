@@ -4,15 +4,15 @@ import { ICliente } from '../../../core/domain/cliente.interface';
 
 export class CadastrarClienteDto implements ICliente {
 
-  @ApiProperty()
+  @ApiProperty()  
   @Length(1, 30)
   nome: string;
 
-  @ApiProperty()
+  @ApiProperty() 
   @Length(11, 11)
   cpf: string;
 
-  @ApiProperty()
+  @ApiProperty() 
   @IsEmail()
   @IsNotEmpty()
   email: string;
