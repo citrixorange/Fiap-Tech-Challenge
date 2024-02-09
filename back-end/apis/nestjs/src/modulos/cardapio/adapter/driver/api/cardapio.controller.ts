@@ -15,14 +15,18 @@ export class CardapioController {
 
   @Post()
   create(@Body() createCardapioDto: CreateCardapioDto) {
-    return this.cardapioService.criarItem(
-      {
-        nome: createCardapioDto.nome,
-        descricao: createCardapioDto.descricao,
-        categoria: createCardapioDto.categoria,
-        preco: createCardapioDto.preco
-      }
-    );
+    try {
+      return this.cardapioService.criarItem(
+        {
+          nome: createCardapioDto.nome,
+          descricao: createCardapioDto.descricao,
+          categoria: createCardapioDto.categoria,
+          preco: createCardapioDto.preco
+        }
+      );
+    } catch(error) {
+      throw error;
+    }
   }
 
   @Patch()
@@ -57,13 +61,7 @@ export class CardapioController {
         }
       );
     } catch(error) {
-      throw new HttpException(
-        {
-          status: HttpStatus.NOT_FOUND,
-          error: config["errors"]["messages"]["item_cardapio_nao_encontrado"]
-        },
-        HttpStatus.NOT_FOUND
-      );
+      throw error;
     } 
   }
 

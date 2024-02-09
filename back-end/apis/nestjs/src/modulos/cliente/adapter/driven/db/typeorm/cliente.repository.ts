@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, HttpException, HttpStatus } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from "typeorm";
 import { Cliente } from './cliente.entity';
@@ -20,15 +20,27 @@ export class ClienteRepository implements ICadastroCliente {
     ) {}
 
     public async cadastro(request: ICadastroRequest): Promise<ICadastroResponse> {
-        let cliente = new Cliente(
-            request.nome,
-            request.cpf, 
-            request.email
-        );
-        
-        return {
-            cliente: await this.clienteRepository.save(cliente)
-        };
+
+        try {
+            let cliente = new Cliente(
+                request.nome,
+                request.cpf, 
+                request.email
+            );
+            
+            return {
+                cliente: await this.clienteRepository.save(cliente)
+            };
+        } catch (error) {
+            console.log(error);
+            throw new HttpException(
+                {
+                    status: HttpStatus.CONFLICT,
+                    error: config["errors"]["messages"]["cliente_duplicado"]
+                },
+                HttpStatus.CONFLICT
+            );
+        }
         
     }
 
@@ -39,17 +51,17 @@ export class ClienteRepository implements ICadastroCliente {
 
             if (request.nome) {
                 let nome = request.nome;
-              queryBuilder.where('cliente.nome = :nome', { nome });
+              queryBuilder.andWhere('cliente.nome = :nome', { nome });
             }
     
             if (request.cpf) {
                 let cpf = request.cpf;
-                queryBuilder.where('cliente.cpf = :cpf', { cpf });
+                queryBuilder.andWhere('cliente.cpf = :cpf', { cpf });
             }
     
             if (request.email) {
                 let email = request.email;
-                queryBuilder.where('cliente.email = :email', { email });
+                queryBuilder.andWhere('cliente.email = :email', { email });
             }
     
             let obj = await queryBuilder.getOneOrFail();

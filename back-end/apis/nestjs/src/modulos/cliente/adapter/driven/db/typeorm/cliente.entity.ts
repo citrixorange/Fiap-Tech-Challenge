@@ -1,4 +1,4 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { BaseEntity, Column, Entity, PrimaryGeneratedColumn, Index } from 'typeorm';
 import { ICliente } from '../../../../core/domain/cliente.interface';
 
 @Entity()
@@ -7,12 +7,15 @@ export class Cliente extends BaseEntity implements ICliente {
   id: string;
 
   @Column()
+  @Index({ unique: true })
   nome: string;
 
   @Column()
+  @Index({ unique: true })
   cpf: string;
 
   @Column()
+  @Index({ unique: true })
   email: string;
 
   constructor(nome: string, cpf: string, email: string) {

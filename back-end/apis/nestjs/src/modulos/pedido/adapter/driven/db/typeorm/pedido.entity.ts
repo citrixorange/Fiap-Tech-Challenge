@@ -19,6 +19,7 @@ export class ItemPedido extends BaseEntity implements IItemPedido {
   quantidade: number;
 
   @ManyToOne(() => ItemCardapio, { eager: true })
+  @JoinColumn()
   item: Relation<ItemCardapio>;
 
   @Column({ type: 'timestamptz' })

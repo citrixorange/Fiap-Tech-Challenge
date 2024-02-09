@@ -1,4 +1,4 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { BaseEntity, Column, Entity, PrimaryGeneratedColumn, Index } from 'typeorm';
 import { IItemCardapio } from "../../../../core/domain/item.interface";
 import { Categoria } from '../../../../core/domain/categoria';
 
@@ -9,6 +9,7 @@ export class ItemCardapio extends BaseEntity implements IItemCardapio {
   id: string;
 
   @Column()
+  @Index({ unique: true })
   nome: string;
 
   @Column()

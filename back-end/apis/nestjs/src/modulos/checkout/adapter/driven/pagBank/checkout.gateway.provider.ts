@@ -49,6 +49,7 @@ export class PagBankGateway implements ICheckout {
     formatPrice(price:string): string {
         
         try {
+
             const numericValue = parseFloat(price);
 
             if (isNaN(numericValue)) {
@@ -59,7 +60,7 @@ export class PagBankGateway implements ICheckout {
                 style: 'currency',
                 currency: 'BRL',
                 minimumFractionDigits: 2,
-            }).format(numericValue);
+            }).format(numericValue/100);
     
             return currencyString;
 

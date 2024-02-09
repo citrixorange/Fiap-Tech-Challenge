@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, HttpException, HttpStatus } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from "typeorm";
 import { ItemCardapio } from './cardapio.entity';
@@ -24,17 +24,29 @@ export class CardapioRepository implements ICardapio {
     ) {}
     
     public async criarItem(request: ICriarItemRequest): Promise<ICriarItemResponse> {
-        
-        let item = new ItemCardapio(
-            request.nome,
-            request.descricao,
-            request.categoria, 
-            request.preco
-        );
 
-        return {
-            item: await this.cardapioRepository.save(item)
-        };
+        try {
+            let item = new ItemCardapio(
+                request.nome,
+                request.descricao,
+                request.categoria, 
+                request.preco
+            );
+    
+            return {
+                item: await this.cardapioRepository.save(item)
+            };
+
+        } catch(error) {
+            console.log(error);
+            throw new HttpException(
+                {
+                    status: HttpStatus.CONFLICT,
+                    error: config["errors"]["messages"]["item_cardapio_duplicado"]
+                },
+                HttpStatus.CONFLICT
+            );
+        }
     }
 
     public async editarItem(request: IEditarItemRequest): Promise<IEditarItemResponse> {
@@ -73,7 +85,26 @@ export class CardapioRepository implements ICardapio {
             };
 
         } catch (error) {
-            throw new NotFoundException(config["errors"]["messages"]["item_cardapio_nao_encontrado"]);
+
+            console.log(error);
+
+            if (error.code = 23505) {
+                throw new HttpException(
+                    {
+                        status: HttpStatus.CONFLICT,
+                        error: config["errors"]["messages"]["item_cardapio_duplicado"]
+                    },
+                    HttpStatus.CONFLICT
+                );
+            } else {
+                throw new HttpException(
+                    {
+                      status: HttpStatus.NOT_FOUND,
+                      error: config["errors"]["messages"]["item_cardapio_nao_encontrado"]
+                    },
+                    HttpStatus.NOT_FOUND
+                );
+            }
         }
     }
 

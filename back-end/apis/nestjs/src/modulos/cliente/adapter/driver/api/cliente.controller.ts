@@ -14,13 +14,18 @@ export class ClienteController {
 
   @Post()
   async cadastrar(@Body() clienteDto: CadastrarClienteDto): Promise<ICadastroResponse> {
-    return await this.clienteService.cadastrarCliente(
-      {
-        nome: clienteDto.nome,
-        cpf: clienteDto.cpf,
-        email: clienteDto.email
-      }
-    );
+
+    try {
+      return await this.clienteService.cadastrarCliente(
+        {
+          nome: clienteDto.nome,
+          cpf: clienteDto.cpf,
+          email: clienteDto.email
+        }
+      );
+    } catch(error) {
+      throw error;
+    }
   }
 
   @Get()

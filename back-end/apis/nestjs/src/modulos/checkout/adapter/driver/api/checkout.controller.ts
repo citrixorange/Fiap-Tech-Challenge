@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Param, HttpException, HttpStatus } from '@nestjs/common';
+import { Body, Controller, Post, Param, UsePipes, ValidationPipe, HttpException, HttpStatus } from '@nestjs/common';
 import { CheckoutService } from '../../../core/applications/services/checkout.service';
 import { 
     GerarQrCodeDto
@@ -6,6 +6,11 @@ import {
 import { QrCodeGenResponse, FakeCheckoutResponse } from "../../../core/applications/ports/checkout.interface";
 
 @Controller('checkout')
+@UsePipes(new ValidationPipe({
+  transform: true,
+  whitelist: true, 
+  forbidNonWhitelisted: true 
+})) 
 export class CheckoutController {
   constructor(private readonly checkoutService: CheckoutService) {}
 

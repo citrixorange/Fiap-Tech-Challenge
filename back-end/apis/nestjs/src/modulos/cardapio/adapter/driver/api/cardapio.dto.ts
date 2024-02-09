@@ -4,6 +4,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { PartialType } from '@nestjs/mapped-types';
 import { IItemCardapio } from '../../../core/domain/item.interface';
 import { Categoria, categoriaFromJSON } from '../../../core/domain/categoria';
+import { config } from "../../../../../config/global_config";
 
 export class CreateCardapioDto implements IItemCardapio {
 
@@ -19,7 +20,7 @@ export class CreateCardapioDto implements IItemCardapio {
   @IsEnum(
     Categoria,
     {
-      message: 'Categoria Inválida. Por favor consulte a documentação.'
+      message: config["errors"]["messages"]["categoria_invalida"]
     }
   )
   categoria: Categoria;
@@ -53,7 +54,7 @@ export class ListarCardapioDto {
   @IsEnum(
     Categoria,
     {
-      message: 'Categoria Inválida. Por favor consulte a documentação.'
+      message: config["errors"]["messages"]["categoria_invalida"]
     }
   )
   categoria?: Categoria;

@@ -1,4 +1,4 @@
-import { IsArray, ValidateNested, Length, IsOptional, IsCurrency, IsNumber, IsPositive, ArrayNotEmpty, ArrayMinSize, ArrayMaxSize } from 'class-validator';
+import { IsArray, ValidateNested, Length, IsOptional, IsCurrency, IsNumber, Max, IsPositive, ArrayNotEmpty, ArrayMinSize, ArrayMaxSize } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 
@@ -14,6 +14,8 @@ import {
 
 import { CadastrarClienteDto } from "../../../../cliente/adapter/driver/api/cliente.dto";
 
+import { config } from "../../../../../config/global_config";
+
 export class CheckoutItemPedidoDto implements ICheckoutItemPedido {
     
     @Length(1, 30)
@@ -21,6 +23,12 @@ export class CheckoutItemPedidoDto implements ICheckoutItemPedido {
     
     @IsNumber()
     @IsPositive()
+    @Max(
+        config["max_order_quantity"],
+        {
+            message: config["errors"]["messages"]["quantidade_maxima_excedida"]
+        }
+    )
     quantidade: number;
     
     @IsCurrency({
