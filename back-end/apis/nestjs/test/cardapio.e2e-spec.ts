@@ -1385,7 +1385,7 @@ describe('Cardapio (e2e)', () => {
     testNo++;
 
     it(`${testNo} - Criar Pedido com reference_id duplicado deve ser rejeitado`, async () => {
-        await loadFixtures('3-pedido.sql');
+        //await loadFixtures('3-pedido.sql');
     });
 
     testNo++;

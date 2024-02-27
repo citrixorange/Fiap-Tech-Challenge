@@ -15,6 +15,7 @@ services:
 
   app:
     image: tech-challenge:test
+    user: user:user
     ports:
       - "3000:3000"
     volumes:

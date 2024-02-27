@@ -158,7 +158,8 @@ Check more about it here: https://protobuf.dev/overview/
 
 # Instructions to run locally
 
+```
 docker build .
 cd ./back-end/apis/nestjs/environment/dev
 docker-compose up
-
+```

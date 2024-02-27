@@ -23,6 +23,7 @@ services:
 
   app:
     image: tech-challenge:dev
+    user: user:user
     ports:
       - "3000:3000"
     volumes:
