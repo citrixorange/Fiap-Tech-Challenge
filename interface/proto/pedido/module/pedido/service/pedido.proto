@@ -13,6 +13,7 @@ service IRegistroPedido {
     rpc terminarPreparo(ITerminarPreparoRequest) returns (ITerminarPreparoResponse);
     rpc finalizar(IFinalizarRequest) returns (IFinalizarResponse);
     rpc listar(IListarRequest) returns (IListarResponse);
+    rpc atualizarStatusPagamento(IAtualizarPagamentoRequest) returns (IAtualizarPagamentoResponse);
 }
 
 message IRegistarRequest {
@@ -59,5 +60,14 @@ message IListarRequest {
 
 message IListarResponse {
     repeated pedido.def.IPedidoProtocolado pedidos = 1;
+}
+
+message IAtualizarPagamentoRequest {
+    string id = 1;
+    checkout.def.PaymentStatus payment_status = 2;
+}
+
+message IAtualizarPagamentoResponse {
+    pedido.def.IPedidoProtocolado protocolo = 1;
 }
 
