@@ -9,7 +9,9 @@ import {
     IFinalizarRequest,
     IFinalizarResponse,
     IListarRequest,
-    IListarResponse
+    IListarResponse,
+    IAtualizarPagamentoRequest,
+    IAtualizarPagamentoResponse
 } from "../../../../../../protobuf/gen/pedido/service/pedido";
 
 export {
@@ -23,5 +25,7 @@ export {
     IFinalizarRequest,
     IFinalizarResponse,
     IListarRequest,
-    IListarResponse
+    IListarResponse,
+    IAtualizarPagamentoRequest,
+    IAtualizarPagamentoResponse
 };

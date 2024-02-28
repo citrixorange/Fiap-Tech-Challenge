@@ -11,7 +11,9 @@ import {
     IFinalizarRequest,
     IFinalizarResponse,
     IListarRequest,
-    IListarResponse
+    IListarResponse,
+    IAtualizarPagamentoRequest,
+    IAtualizarPagamentoResponse
 } from "../ports/pedido.interface";
 
 export class PedidoService {
@@ -39,6 +41,10 @@ export class PedidoService {
 
     async listar(request: IListarRequest): Promise<IListarResponse> {
         return await this.pedidoRepository.listar(request);
+    }
+
+    async atualizarStatusPagamento(request: IAtualizarPagamentoRequest): Promise<IAtualizarPagamentoResponse> {
+        return await this.pedidoRepository.atualizarStatusPagamento(request);
     }
 
 }
