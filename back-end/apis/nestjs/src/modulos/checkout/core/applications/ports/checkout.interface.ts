@@ -3,7 +3,12 @@ import {
     QrCodeGenRequest,
     QrCodeGenResponse,
     FakeCheckoutRequest,
-    FakeCheckoutResponse
+    FakeCheckoutResponse,
+    ConsultaPagamentoRequest,
+    ConsultaPagamentoResponse,
+    EstornoRequest,
+    EstornoResponse,
+    NotificationRequest
 } from "../../../../../../protobuf/gen/checkout/service/checkout";
 
 export {
@@ -11,5 +16,10 @@ export {
     QrCodeGenRequest,
     QrCodeGenResponse,
     FakeCheckoutRequest,
-    FakeCheckoutResponse
+    FakeCheckoutResponse,
+    ConsultaPagamentoRequest,
+    ConsultaPagamentoResponse,
+    EstornoRequest,
+    EstornoResponse,
+    NotificationRequest
 };

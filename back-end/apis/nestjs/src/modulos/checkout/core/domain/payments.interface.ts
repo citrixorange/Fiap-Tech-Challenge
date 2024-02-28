@@ -1,6 +1,7 @@
 import { 
     PaymentGateway,
     PaymentMethods,
+    PaymentStatus,
     IItemPedido as ICheckoutItemPedido,
     IPedido as ICheckoutPedido,
     IPedidoTotal as ICheckoutPedidoTotal 
@@ -9,6 +10,7 @@ import {
 export {
     PaymentGateway,
     PaymentMethods,
+    PaymentStatus,
     ICheckoutItemPedido,
     ICheckoutPedido,
     ICheckoutPedidoTotal  

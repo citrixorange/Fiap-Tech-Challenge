@@ -5,7 +5,12 @@ import {
     QrCodeGenRequest,
     QrCodeGenResponse,
     FakeCheckoutRequest,
-    FakeCheckoutResponse
+    FakeCheckoutResponse,
+    ConsultaPagamentoRequest,
+    ConsultaPagamentoResponse,
+    EstornoRequest,
+    EstornoResponse,
+    NotificationRequest
 } from "../ports/checkout.interface";
 
 export class CheckoutService {
@@ -21,5 +26,17 @@ export class CheckoutService {
 
     async fakeCheckout(request: FakeCheckoutRequest): Promise<FakeCheckoutResponse> {
         return this.checkoutProvider.fakeCheckout(request);
+    }
+
+    async consultarPagamento(request: ConsultaPagamentoRequest): Promise<ConsultaPagamentoResponse> {
+        return this.checkoutProvider.consultarPagamento(request);
+    }
+
+    async estornarCompra(request: EstornoRequest): Promise<EstornoResponse> {
+        return this.checkoutProvider.estornarCompra(request);
+    }
+
+    async webhookNotification(request: NotificationRequest) {
+        this.checkoutProvider.webhookNotification(request);
     }
 }
