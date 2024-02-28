@@ -1,12 +1,17 @@
 syntax = "proto3";
 
 import "checkout/def/checkout.proto";
+import "google/protobuf/any.proto";
+import "google/protobuf/empty.proto";
 
 package checkout.service;
 
 service ICheckout {
     rpc gerarQrCodePix(QrCodeGenRequest) returns (QrCodeGenResponse);
     rpc fakeCheckout(FakeCheckoutRequest) returns (FakeCheckoutResponse);
+    rpc consultarPagamento(ConsultaPagamentoRequest) returns (ConsultaPagamentoResponse);
+    rpc estornarCompra(EstornoRequest) returns (EstornoResponse);
+    rpc webhookNotification(NotificationRequest) returns (google.protobuf.Empty);
 }
 
 message QrCodeGenRequest {
@@ -22,6 +27,7 @@ message QrCodeGenResponse {
     string qr_code_text = 6;
     string qr_code_png_link = 7;
     string qr_code_base64_link = 8;
+    string order_id = 9;
 }
 
 message FakeCheckoutRequest {
@@ -30,4 +36,26 @@ message FakeCheckoutRequest {
 
 message FakeCheckoutResponse {
     string order_id = 1;
+}
+
+message ConsultaPagamentoRequest {
+    string order_id = 1;
+}
+
+message ConsultaPagamentoResponse {
+    string order_id = 1;
+    checkout.def.PaymentStatus status = 2; 
+}
+
+message EstornoRequest {
+    string order_id = 1;
+}
+
+message EstornoResponse {
+    string order_id = 1;
+    checkout.def.PaymentStatus status = 2;
+}
+
+message NotificationRequest {
+    google.protobuf.Any order = 1;
 }

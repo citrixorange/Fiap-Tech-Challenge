@@ -14,6 +14,15 @@ enum PaymentMethods {
     PIX = 1;
 }
 
+enum PaymentStatus {
+    UNSPECIFIED_STATUS = 0;
+    WAITING = 1; 
+    PAID = 2;
+    REFUSED = 3;
+    CANCELLED = 4;
+    REFUNDED = 5;
+} 
+
 message IItemPedido {
     string nome = 1;
     uint32 quantidade = 2;

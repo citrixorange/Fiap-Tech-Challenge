@@ -2,6 +2,7 @@ syntax = "proto3";
 
 import "cliente/def/cliente.proto";
 import "cardapio/def/cardapio.proto";
+import "checkout/def/checkout.proto";
 import "google/protobuf/timestamp.proto";
 
 package pedido.def;
@@ -37,4 +38,7 @@ message IPedidoProtocolado {
     google.protobuf.Timestamp received_at = 6;
     google.protobuf.Timestamp prepared_at = 7;
     google.protobuf.Timestamp done_at = 8;
+    checkout.def.PaymentGateway payment_gateway = 9;
+    checkout.def.PaymentMethods payment_method = 10;
+    checkout.def.PaymentStatus payment_status = 11;
 }

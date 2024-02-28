@@ -8,6 +8,11 @@ deps:
     digest: shake256:0500cead8fd75c471a83376631ee0419487db86c38db850f4773893406832f59aaeff0b816d9492fa2baab1e8d618546886de8dc7203e3a86a0855acf98ad813
   - remote: buf.build
     owner: fiap-tech-challenge
+    repository: checkout
+    commit: 14891dc072e546229e83be37bcafe2f9
+    digest: shake256:e515e1ee7318a4840851fe97928fcd156b70ffe8bb4090072a31b1ccfbcde03371a6b3d31a04ccc3f369ed20c19702c926eb2a7c841b3b95c6624f97b1971a8c
+  - remote: buf.build
+    owner: fiap-tech-challenge
     repository: cliente
     commit: 08d66fe681b34f638ecdc63fc22079b7
     digest: shake256:4da59337d094b2f95b9d0b4416503257cdd05c61b7112fd26f702fa0c897e6865980752637c493a82c9eba0a3445adbe909dbf58fe77b8a8a098961eb8c35b5f

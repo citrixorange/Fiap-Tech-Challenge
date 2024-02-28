@@ -1,5 +1,7 @@
 syntax = "proto3";
 
+import "cliente/def/cliente.proto";
+import "checkout/def/checkout.proto";
 import "pedido/def/pedido.proto";
 import "google/protobuf/any.proto";
 
@@ -14,7 +16,13 @@ service IRegistroPedido {
 }
 
 message IRegistarRequest {
-    google.protobuf.Any pedido = 1;
+    reserved 1;
+    cliente.def.ICliente cliente = 2;
+    repeated pedido.def.IItemPedido pedido = 3;
+    pedido.def.StatusPedido status = 4;
+    checkout.def.PaymentGateway payment_gateway = 5;
+    checkout.def.PaymentMethods payment_method = 6;
+    checkout.def.PaymentStatus payment_status = 7;
 }
 
 message IRegistarResponse {
