@@ -44,7 +44,11 @@ const config = {
             "pedido_nao_encontrado": "NOT_FOUND",
             "bad_request": "BAD_REQUEST",
             "unexpected_error": "INTERNAL_SERVER_ERROR",
-            "quantidade_maxima_excedida": "BAD_REQUEST"
+            "quantidade_maxima_excedida": "BAD_REQUEST",
+            "status_pedido_invalido": "BAD_REQUEST",
+            "gateway_pagamento_invalido": "BAD_REQUEST",
+            "metodo_pagamento_invalido": "BAD_REQUEST",
+            "status_pagamento_invalido": "BAD_REQUEST"
         },
         "messages": {
             "categoria_invalida": "Categoria Inválida. Por favor consulte a documentação.",
@@ -58,7 +62,11 @@ const config = {
             "pedido_nao_encontrado": "Pedido não encontrado.",
             "bad_request": "Bad Request.",
             "unexpected_error": "Unexpected Error.",
-            "quantidade_maxima_excedida": "Quantidade Superior a permitida."
+            "quantidade_maxima_excedida": "Quantidade Superior a permitida.",
+            "status_pedido_invalido": "Status Pedido Inválido. Por favor consulte a documentação.",
+            "gateway_pagamento_invalido": "Gateway de Pagamento Inválido. Por favor consulte a documentação.",
+            "metodo_pagamento_invalido": "Método de Pagamento Inválido. Por favor consulte a documentação.",
+            "status_pagamento_invalido": "Status de Pagamento Inválido. Por favor consulte a documentação."
         }
     }
 };

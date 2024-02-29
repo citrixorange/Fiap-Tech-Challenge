@@ -3,7 +3,10 @@ import {
     statusPedidoFromJSON, 
     IItemPedido,
     IPedidoTotal,
-    IPedidoProtocolado
+    IItemPedidoProtocolado,
+    IPedidoProtocolado,
+    IPedidoTotalProtocolado,
+
 } from "../../../../../protobuf/gen/pedido/def/pedido";
 
 export {
@@ -11,5 +14,7 @@ export {
     statusPedidoFromJSON,
     IItemPedido,
     IPedidoTotal,
-    IPedidoProtocolado
+    IItemPedidoProtocolado,
+    IPedidoProtocolado,
+    IPedidoTotalProtocolado
 };

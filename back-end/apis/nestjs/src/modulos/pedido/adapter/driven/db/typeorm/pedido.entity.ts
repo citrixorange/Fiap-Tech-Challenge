@@ -1,16 +1,17 @@
 import { BaseEntity, Column, Entity, PrimaryGeneratedColumn, PrimaryColumn, OneToMany, ManyToOne, JoinColumn, Relation } from 'typeorm';
 import { StatusPedido } from '../../../../core/domain/item.pedido.interface';
+import { PaymentGateway, PaymentMethods, PaymentStatus } from '../../../../../checkout/core/domain/payments.interface';
 import { Cliente } from '../../../../../cliente/adapter/driven/db/typeorm/cliente.entity';
 import { ItemCardapio } from '../../../../../cardapio/adapter/driven/db/typeorm/cardapio.entity';
 
 import {
-  IItemPedido,
+  IItemPedidoProtocolado,
   IPedidoProtocolado  
 } from "../../../../core/domain/item.pedido.interface";
 
 
 @Entity()
-export class ItemPedido extends BaseEntity implements IItemPedido {
+export class ItemPedido extends BaseEntity implements IItemPedidoProtocolado {
 
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -65,7 +66,16 @@ export class PedidoProtocolado extends BaseEntity implements IPedidoProtocolado 
   @Column({ type: 'timestamptz' })
   doneAt: Date;
 
-  constructor(id: string, cliente: Cliente, pedido: ItemPedido[], createdAt: Date) {
+  @Column()
+  paymentGateway: PaymentGateway;
+
+  @Column()
+  paymentMethod: PaymentMethods;
+
+  @Column()
+  paymentStatus: PaymentStatus;
+
+  constructor(id: string, cliente: Cliente, pedido: ItemPedido[], createdAt: Date, paymentGateway: PaymentGateway, paymentMethod: PaymentMethods, paymentStatus: PaymentStatus) {
     super();
     this.id = id;
     this.cliente = cliente;
@@ -75,6 +85,9 @@ export class PedidoProtocolado extends BaseEntity implements IPedidoProtocolado 
     this.receivedAt = createdAt;
     this.preparedAt = createdAt;
     this.doneAt = createdAt;
+    this.paymentGateway = paymentGateway;
+    this.paymentMethod = paymentMethod;
+    this.paymentStatus = paymentStatus;
   }
 
 }

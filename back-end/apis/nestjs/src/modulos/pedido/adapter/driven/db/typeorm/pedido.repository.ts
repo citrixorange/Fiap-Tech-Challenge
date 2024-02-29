@@ -17,7 +17,9 @@ import {
     IFinalizarRequest,
     IFinalizarResponse,
     IListarRequest,
-    IListarResponse
+    IListarResponse,
+    IAtualizarPagamentoRequest,
+    IAtualizarPagamentoResponse
 } from "../../../../core/applications/ports/pedido.interface";
 import { StatusPedido } from "../../../../core/domain/item.pedido.interface";
 
@@ -58,18 +60,18 @@ export class PedidoRepository implements IRegistroPedido {
 
             let object = JSON.parse(JSON.stringify(request.pedido));
 
-            let cpfCliente = object.customer.tax_id;
+            let cpfCliente = request.cliente.cpf;
 
             let pedido: ItemPedido[] = [];
 
-            for(const itemPedido of object.items) {
-                let itemCardapio = await this.getItemCardapioByNome(itemPedido.name);
+            for(const itemPedido of request.pedido) {
+                let itemCardapio = await this.getItemCardapioByNome(itemPedido.nome);
 
                 if(!itemCardapio) {
                     throw new Error(config["errors"]["messages"]["item_cardapio_nao_encontrado"]);
                 }
 
-                let item = new ItemPedido(itemPedido.quantity, itemCardapio, object.created_at);
+                let item = new ItemPedido(itemPedido.quantidade, itemCardapio, object.created_at);
                 pedido.push(item);
             }
 
@@ -85,7 +87,15 @@ export class PedidoRepository implements IRegistroPedido {
                 );
             }*/
 
-            let pedidoProtocolo = new PedidoProtocolado(object.reference_id, clienteResponse.cliente as Cliente, pedido, object.created_at);
+            let pedidoProtocolo = new PedidoProtocolado(
+                request.id, 
+                clienteResponse.cliente as Cliente, 
+                pedido, 
+                new Date(), 
+                request.paymentGateway, 
+                request.paymentMethod, 
+                request.paymentStatus
+            );
 
             let protocol = await this.pedidoRepository.save(pedidoProtocolo);
 
@@ -197,6 +207,32 @@ export class PedidoRepository implements IRegistroPedido {
 
         return {
             pedidos: pedidos
+        }
+    }
+
+    public async atualizarStatusPagamento(request: IAtualizarPagamentoRequest): Promise<IAtualizarPagamentoResponse> {
+        try {
+            let pedido = await this.pedidoRepository.findOne({
+                where: {
+                    id: request.id
+                }
+            });
+
+            if(!pedido) {
+                throw new Error(config["errors"]["messages"]["pedido_nao_encontrado"]);
+            }
+
+            pedido.paymentStatus = request.paymentStatus;
+
+            pedido = await this.pedidoRepository.save(pedido);
+
+            return {
+                protocolo: pedido
+            };
+
+        } catch(error) {
+            console.log(error);
+            return error;
         }
     }
 
