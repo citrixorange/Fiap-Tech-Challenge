@@ -1,6 +1,7 @@
 syntax = "proto3";
 
-import "checkout/def/checkout.proto";
+import "checkoutdef/def/checkoutdef.proto";
+import "pedido/def/pedido.proto";
 import "google/protobuf/any.proto";
 import "google/protobuf/empty.proto";
 
@@ -15,13 +16,13 @@ service ICheckout {
 }
 
 message QrCodeGenRequest {
-    checkout.def.IPedidoTotal pedido = 1;
+    pedido.def.IPedidoTotal pedido = 1;
 }
 
 message QrCodeGenResponse {
-    checkout.def.PaymentGateway gateway = 1;
+    checkoutdef.def.PaymentGateway gateway = 1;
     string qr_code_id = 2;
-    checkout.def.IPedidoTotal pedido = 3;
+    pedido.def.IPedidoTotal pedido = 3;
     string total_amount = 4;
     string expiration_data = 5;
     string qr_code_text = 6;
@@ -44,7 +45,7 @@ message ConsultaPagamentoRequest {
 
 message ConsultaPagamentoResponse {
     string order_id = 1;
-    checkout.def.PaymentStatus status = 2; 
+    checkoutdef.def.PaymentStatus status = 2; 
 }
 
 message EstornoRequest {
@@ -53,7 +54,7 @@ message EstornoRequest {
 
 message EstornoResponse {
     string order_id = 1;
-    checkout.def.PaymentStatus status = 2;
+    checkoutdef.def.PaymentStatus status = 2;
 }
 
 message NotificationRequest {

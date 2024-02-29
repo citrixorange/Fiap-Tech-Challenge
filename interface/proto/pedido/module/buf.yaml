@@ -9,5 +9,5 @@ lint:
 deps:
   - buf.build/fiap-tech-challenge/cliente
   - buf.build/fiap-tech-challenge/cardapio
-  - buf.build/fiap-tech-challenge/checkout
+  - buf.build/fiap-tech-challenge/checkoutdef
   - buf.build/protocolbuffers/wellknowntypes:v21.12

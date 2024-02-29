@@ -2,7 +2,7 @@ syntax = "proto3";
 
 import "cliente/def/cliente.proto";
 import "cardapio/def/cardapio.proto";
-import "checkout/def/checkout.proto";
+import "checkoutdef/def/checkoutdef.proto";
 import "google/protobuf/timestamp.proto";
 
 package pedido.def;
@@ -16,13 +16,28 @@ enum StatusPedido {
 }
 
 message IItemPedido {
+    string nome = 1;
+    uint32 quantidade = 2;
+    string preco = 3;
+}
+
+message IPedido {
+    repeated IItemPedido item = 1;
+}
+
+message IPedidoTotal {
+    IPedido pedido = 1;
+    optional cliente.def.ICliente cliente = 2;
+}
+
+message IItemPedidoProtocolado {
     string id = 1;
     uint32 quantidade = 2;
     cardapio.def.IItemCardapio item = 3;
     google.protobuf.Timestamp created_at = 4;
 }
 
-message IPedidoTotal {
+message IPedidoTotalProtocolado {
     string id = 1;
     repeated IItemPedido item_pedido = 2;
     cliente.def.ICliente cliente = 3;
@@ -32,13 +47,13 @@ message IPedidoTotal {
 message IPedidoProtocolado {
     string id = 1;
     cliente.def.ICliente cliente = 2;
-    repeated IItemPedido pedido = 3;
+    repeated IItemPedidoProtocolado pedido = 3;
     StatusPedido status = 4;
     google.protobuf.Timestamp created_at = 5;
     google.protobuf.Timestamp received_at = 6;
     google.protobuf.Timestamp prepared_at = 7;
     google.protobuf.Timestamp done_at = 8;
-    checkout.def.PaymentGateway payment_gateway = 9;
-    checkout.def.PaymentMethods payment_method = 10;
-    checkout.def.PaymentStatus payment_status = 11;
+    checkoutdef.def.PaymentGateway payment_gateway = 9;
+    checkoutdef.def.PaymentMethods payment_method = 10;
+    checkoutdef.def.PaymentStatus payment_status = 11;
 }

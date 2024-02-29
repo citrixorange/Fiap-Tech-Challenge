@@ -3,6 +3,26 @@ version: v1
 deps:
   - remote: buf.build
     owner: fiap-tech-challenge
+    repository: cardapio
+    commit: f0a6fdacfed04222b274cddf7c574ca3
+    digest: shake256:0500cead8fd75c471a83376631ee0419487db86c38db850f4773893406832f59aaeff0b816d9492fa2baab1e8d618546886de8dc7203e3a86a0855acf98ad813
+  - remote: buf.build
+    owner: fiap-tech-challenge
+    repository: checkoutdef
+    commit: 29d1146498454d92b8c6a21f003ed87a
+    digest: shake256:0f065ce04c49f48daa554d4308ff9ec63da906a457eec4073d3874691de2dfe83cadc7343d1c0dd7fae05dce84eada22946287bf3198eff84160802d4cec43f2
+  - remote: buf.build
+    owner: fiap-tech-challenge
     repository: cliente
     commit: 08d66fe681b34f638ecdc63fc22079b7
     digest: shake256:4da59337d094b2f95b9d0b4416503257cdd05c61b7112fd26f702fa0c897e6865980752637c493a82c9eba0a3445adbe909dbf58fe77b8a8a098961eb8c35b5f
+  - remote: buf.build
+    owner: fiap-tech-challenge
+    repository: pedido
+    commit: 5e7f0b1b062741abaeab5aa05e999dc5
+    digest: shake256:41fea2d9f1a862460d5575f1c7878b34c2735aba9b2a5d4e3048c53b1acd27752c6e0cf181b527aa6f25f576ac0d1c17a27d18b87e1e6cdcf9e987292c12dbcd
+  - remote: buf.build
+    owner: protocolbuffers
+    repository: wellknowntypes
+    commit: f17e05fe4a764a3482b8e033daec742e
+    digest: shake256:886495c560d96bc48bef49e17e3d33430fa1f6c735b0cee40ef83161824b01c2d2f342d81ca02aadeed52aa3cf4a8273d5ab9584fbb595b71e7e44240caedb00

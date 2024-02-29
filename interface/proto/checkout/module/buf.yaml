@@ -8,3 +8,5 @@ lint:
     - DEFAULT
 deps:
   - buf.build/fiap-tech-challenge/cliente
+  - buf.build/fiap-tech-challenge/pedido
+  - buf.build/fiap-tech-challenge/checkoutdef

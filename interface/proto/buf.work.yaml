@@ -3,4 +3,5 @@ directories:
   - cardapio/module
   - cliente/module
   - checkout/module
+  - checkoutdef/module
   - pedido/module
